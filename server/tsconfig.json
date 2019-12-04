@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "noUnusedParameters": true,
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "target": "es6",
+    "module": "esnext",
+    "lib": ["es6", "es2015", "dom"],
+    "baseUrl": ".",
+    "paths": {
+      "@user": ["controller/user"]
+    }
+  }
+}

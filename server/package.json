@@ -1,0 +1,24 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "module-alias": "^2.2.2"
+  },
+  "scripts": {
+    "start": "node index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "_moduleAliases": {
+    "@user": "controller/user/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.14",
+    "typescript": "^3.7.2",
+    "tslint": "^5.20.1"
+  },
+  "author": "Town Studio",
+  "description": ""
+}

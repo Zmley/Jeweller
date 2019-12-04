@@ -1,0 +1,19 @@
+{
+  "name": "jeweller",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BowenLi0214/Jeweller.git"
+  },
+  "author": "Town Studio",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BowenLi0214/Jeweller/issues"
+  },
+  "homepage": "https://github.com/BowenLi0214/Jeweller#readme"
+}
