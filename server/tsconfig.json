@@ -1,16 +1,17 @@
 {
   "compilerOptions": {
-    "experimentalDecorators": true,
-    "moduleResolution": "node",
-    "noUnusedParameters": true,
-    "strictNullChecks": true,
-    "skipLibCheck": true,
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "target": "es6",
-    "module": "esnext",
-    "lib": ["es6", "es2015", "dom"],
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist",
     "baseUrl": ".",
     "paths": {
-      "@user": ["controller/user"]
+      "*": ["node_modules/*", "src/types/*"]
     }
-  }
+  },
+  "include": ["src/**/*"]
 }

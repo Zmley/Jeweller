@@ -1,24 +1,58 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "main": "index.ts",
-  "license": "MIT",
-  "dependencies": {
-    "express": "^4.17.1",
-    "module-alias": "^2.2.2"
+  "name": "express-typescript-starter",
+  "version": "0.1.0",
+  "description": "A starting point for Node.js express apps with TypeScript",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Microsoft/TypeScript-Node-Starter"
   },
+  "author": "MindSea",
   "scripts": {
-    "start": "node index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run build-ts && npm run tslint && npm run serve",
+    "build": "npm run build-ts && npm run tslint",
+    "serve": "node dist/app.js",
+    "watch-node": "nodemon dist/app.js",
+    "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\"",
+    "watch-test": "npm run test --watchAll",
+    "build-ts": "tsc",
+    "watch-ts": "tsc -w",
+    "tslint": "tslint -c tslint.json -p tsconfig.json",
+    "debug": "npm run build && npm run watch-debug",
+    "serve-debug": "nodemon --inspect dist/app.js",
+    "watch-debug": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\""
   },
-  "_moduleAliases": {
-    "@user": "controller/user/index.ts"
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.1.0",
+    "errorhandler": "^1.5.1",
+    "express": "^4.17.1",
+    "express-session": "^1.16.2",
+    "express-validator": "^6.2.0",
+    "lodash": "^4.17.15",
+    "request": "^2.88.0",
+    "typedi": "^0.8.0",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
-    "@types/node": "^12.12.14",
-    "typescript": "^3.7.2",
-    "tslint": "^5.20.1"
-  },
-  "author": "Town Studio",
-  "description": ""
+    "@types/body-parser": "^1.17.1",
+    "@types/cors": "^2.8.6",
+    "@types/dotenv": "^6.1.1",
+    "@types/errorhandler": "^0.0.32",
+    "@types/express": "^4.17.1",
+    "@types/express-session": "^1.15.14",
+    "@types/lodash": "^4.14.141",
+    "@types/node": "^12.7.10",
+    "@types/request": "^2.48.3",
+    "@types/shelljs": "^0.8.5",
+    "@types/supertest": "^2.0.7",
+    "chai": "^4.2.0",
+    "concurrently": "^4.1.2",
+    "nodemon": "^1.19.3",
+    "shelljs": "^0.8.3",
+    "supertest": "^4.0.2",
+    "ts-node": "^8.4.1",
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.3"
+  }
 }
