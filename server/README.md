@@ -1,4 +1,4 @@
-# MindSea TypeScript Node Server Starter
+# TypeScript Node Server Starter
 
 References:
 
