@@ -1,0 +1,52 @@
+$cardSize: 46vw;
+.productList {
+  padding-bottom: 49px;
+  .image {
+    width: $cardSize;
+    height: $cardSize;
+  }
+  .content {
+    padding-left: 8px;
+    padding-top: 5px;
+    position: relative;
+    .likeDislike {
+      position: absolute;
+      top: -6px;
+      right: 0px;
+    }
+    .like {
+      width: 18px;
+      height: 18px;
+    }
+    .count {
+      font-size: 7px;
+      text-align: center;
+      line-height: 9px;
+      position: relative;
+      bottom: 10px;
+    }
+    .productName {
+      font-size: 11px;
+      line-height: 15px;
+    }
+    .userName {
+      font-size: 7px;
+      line-height: 19px;
+    }
+  }
+
+  .productCardLeft {
+    width: $cardSize;
+    display: inline-block;
+    margin-bottom: 15px;
+    margin-left: 2.66vw;
+    box-shadow: none;
+  }
+  .productCardRight {
+    width: $cardSize;
+    display: inline-block;
+    margin-bottom: 15px;
+    margin-left: 2.66vw;
+    box-shadow: none;
+  }
+}

@@ -1,7 +1,12 @@
 import { Pool } from 'pg'
-
+import { productStatus } from '../models'
 const procedures: { [key: string]: string } = {
-  productList: `SELECT * FROM "Product"`
+  productList: `SELECT "name", "likeCount", "price", "username", "images"
+                FROM "Product"
+                LEFT JOIN "User"
+                ON "Product"."userID" = "User"."id"
+                WHERE "status" = '${productStatus.PUBLISHED}'
+              `
 }
 
 const query = async (key: string, value: string[]) => {

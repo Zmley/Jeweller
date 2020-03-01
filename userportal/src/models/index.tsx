@@ -10,4 +10,5 @@ export type Product = {
   price: string
   status: string
   userID: string
+  username: string
 }

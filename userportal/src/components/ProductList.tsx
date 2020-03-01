@@ -11,6 +11,9 @@ import {
   IconButton,
   Avatar
 } from '@material-ui/core'
+import { FavoriteBorder, Favorite } from '@material-ui/icons'
+import productSample from '../assets/img/productSample.png'
+import './productList.scss'
 
 import { Product } from 'models'
 const ProductList: React.FC = (props: any, state: any) => {
@@ -18,36 +21,70 @@ const ProductList: React.FC = (props: any, state: any) => {
     loadProducts()
   }, [])
   const [products, setProducts] = useState([])
+  const [liked, setLiked] = useState(false)
   const loadProducts = async () => {
     const result = await getProducts()
     const { data } = result
     setProducts(data)
   }
-
+  console.log(products)
   return (
     <div className='productList'>
       {products.length > 0 &&
-        products.map((product: Product) => (
-          <Card key={product.id}>
-            <CardHeader
-              avatar={<Avatar aria-label='recipe'>R</Avatar>}
-              action={<IconButton aria-label='settings'></IconButton>}
-              title={product.name}
-              subheader='September 14, 2016'
-            />
+        products.map((product: Product, index: number) => (
+          <Card
+            key={product.id}
+            className={index % 2 === 0 ? 'productCardLeft' : 'productCardRight'}
+          >
             <CardMedia
-              image='/static/images/cards/paella.jpg'
+              image={productSample}
               title='Paella dish'
+              className='image'
             />
-            <CardContent>
-              <Typography variant='body2' color='textSecondary' component='p'>
-                {product.description}
+            <CardContent className='content'>
+              <Typography
+                variant='body2'
+                color='textSecondary'
+                component='p'
+                align='left'
+                className='productName'
+              >
+                {product.name}
               </Typography>
+              <Typography
+                variant='body2'
+                color='textSecondary'
+                component='p'
+                align='left'
+                className='userName'
+              >
+                {product.username}
+              </Typography>
+              <div className='likeDislike'>
+                {/* This part is a future item, hasn't been implemented since we dont have favourite data yet. */}
+                {liked ? (
+                  <IconButton
+                    className='button'
+                    onClick={() => setLiked(false)}
+                  >
+                    <Favorite className='like' />
+                  </IconButton>
+                ) : (
+                  <IconButton className='button' onClick={() => setLiked(true)}>
+                    <FavoriteBorder className='like' />
+                  </IconButton>
+                )}
+                <Typography
+                  variant='body2'
+                  color='textSecondary'
+                  component='p'
+                  align='left'
+                  className='count'
+                >
+                  {product.likeCount}
+                </Typography>
+              </div>
             </CardContent>
-            <CardActions disableSpacing>
-              <IconButton aria-label='add to favorites'></IconButton>
-              <IconButton aria-label='share'></IconButton>
-            </CardActions>
           </Card>
         ))}
     </div>
