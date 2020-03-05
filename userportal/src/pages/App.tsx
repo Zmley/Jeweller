@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.scss'
-import TabBar from '../components/app/TabBar'
+import TabBar from 'components/TabBar'
 import { Switch, Route } from 'react-router-dom'
 import Followed from './Followed'
 import Home from './Home'

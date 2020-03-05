@@ -8,7 +8,7 @@
   },
   "author": "MindSea",
   "scripts": {
-    "migrate": "node-pg-migrate",
+    "migrate": "node-pg-migrate up",
     "start": "node-pg-migrate up && npm run build-ts && npm run tslint && npm run serve",
     "build": "npm run build-ts && npm run tslint",
     "serve": "node dist/app.js",
@@ -31,6 +31,7 @@
     "express-session": "^1.16.2",
     "express-validator": "^6.2.0",
     "lodash": "^4.17.15",
+    "module-alias": "^2.2.2",
     "node-pg-migrate": "^4.2.2",
     "pg": "^7.18.1",
     "request": "^2.88.0",

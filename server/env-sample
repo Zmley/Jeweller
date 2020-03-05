@@ -1,0 +1,14 @@
+
+# Note we depend on NODE_ENV being set to dictate which of the env variables below get loaded at runtime. 
+# See README for more details.
+
+# Put lots of randomness in these
+SESSION_SECRET=gASQiz3Ql8chZzogEh35pNmYJpex08Jq
+PORT=314
+PORT=3000
+DATABASE_URL=postgres://bowenli@localhost:5432/town
+DB_USER=bowenli
+DB_HOST='localhost'
+DB_NAME=town
+DB_PASSWORD=
+DB_PORT=5432
