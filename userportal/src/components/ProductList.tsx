@@ -27,7 +27,6 @@ const ProductList: React.FC = (props: any, state: any) => {
     const { data } = result
     setProducts(data)
   }
-  console.log(products)
   return (
     <div className='productList'>
       {products.length > 0 &&
