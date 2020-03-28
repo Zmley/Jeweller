@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import './Header.scss'
+import cart from '../assets/img/Cart.png'
+import search from '../assets/img/search.png'
 import Chip from '@material-ui/core/Chip'
-import SearchIcon from '@material-ui/icons/Search'
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
 import Slider from './Slider'
@@ -20,20 +22,24 @@ const Header: React.FC = (props: any, state: any) => {
     console.info('You clicked the Chip.')
   }
   return (
-    <div>
-      <div className='searchBar'>
-        <Grid container spacing={1} alignItems='flex-end'>
-          <Grid item>
-            <SearchIcon />
-          </Grid>
-          <Grid item>
-            <TextField id='input-with-icon-grid' label='With a grid' />
-          </Grid>
-          <Grid item>
-            <img src='./assets/img/Cart.png'></img>
-          </Grid>
+    <div className='header'>
+      <Grid container spacing={1} alignItems='flex-end' className='socialBar'>
+        <Grid item>
+          <img src={search} className='search'></img>
         </Grid>
-      </div>
+        <Grid item className='inputField'>
+          <TextField
+            id='input-with-icon-grid'
+            variant='outlined'
+            fullWidth
+            size='small'
+            className='input'
+          />
+        </Grid>
+        <Grid item className='cartbtn'>
+          <img src={cart} className='cart'></img>
+        </Grid>
+      </Grid>
       {catalogue.length > 0 &&
         catalogue.map((name: string) => (
           <Chip
