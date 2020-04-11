@@ -1,0 +1,16 @@
+.addressBox {
+  padding: 32px;
+  .btn{
+    border-radius: 50%;
+    background-color: black !important;
+    .submitIcon{
+      color: white;
+    }
+  }
+  .btnField{
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
