@@ -6,7 +6,8 @@ const procedures: { [key: string]: string } = {
                 LEFT JOIN "User"
                 ON "Product"."userID" = "User"."id"
                 WHERE "status" = '${productStatus.PUBLISHED}'
-              `
+              `,
+  getArtist: `select * from "User" where "id" = $1`
 }
 
 const query = async (key: string, value: string[]) => {

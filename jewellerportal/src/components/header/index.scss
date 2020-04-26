@@ -1,0 +1,28 @@
+.App {
+  .header {
+    height: 124px;
+    background-color: white;
+    border-bottom: 1px solid black;
+    img {
+      position: absolute;
+      left: 45px;
+      top: 30px;
+    }
+    .menuList {
+      display: flex;
+      width: 60%;
+      margin: auto;
+      position: relative;
+      top: 40px;
+      .listItem {
+        width: 25%;
+        margin: auto;
+        text-align: center;
+        color: black;
+        div {
+          padding-left: 0;
+        }
+      }
+    }
+  }
+}
