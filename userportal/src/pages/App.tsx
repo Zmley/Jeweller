@@ -5,6 +5,7 @@ import { Switch, Route } from 'react-router-dom'
 import Followed from './Followed'
 import Home from './Home'
 import Favourite from './Favourite'
+import Product from './Product'
 
 const App: React.FC = (props: any, state: any) => {
   return (
@@ -18,6 +19,9 @@ const App: React.FC = (props: any, state: any) => {
         </Route>
         <Route path='/'>
           <Home />
+        </Route>
+        <Route path='/product/:productInfo'>
+          <Product />
         </Route>
       </Switch>
       <footer>

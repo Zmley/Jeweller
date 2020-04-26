@@ -1,0 +1,10 @@
+.root {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  overflow: hidden;
+}
+.gridList {
+  flex-wrap: nowrap;
+  transform: translateZ(0);
+}
