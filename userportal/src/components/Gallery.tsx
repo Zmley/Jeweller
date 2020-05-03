@@ -7,7 +7,7 @@ import './Gallery.scss'
 import sample from '../assets/img/productSample.png'
 
 export default function TitlebarGridList() {
-  const [products, setProducts] = useState<Array<Product>>([])
+  const [products, setProducts] = useState<Product[]>([])
 
   return (
     <div className='galleryBox'>
