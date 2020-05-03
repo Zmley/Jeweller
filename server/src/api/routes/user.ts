@@ -19,7 +19,6 @@ export default (app: Router) => {
   route.get('/artist', async (req: Request, res: Response) => {
     const { id } = req.query
     const artist = await query('getArtist', [id])
-    console.log(artist)
     return res.json(artist.data.shift()).status(200)
   })
 

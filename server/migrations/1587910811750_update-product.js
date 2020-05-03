@@ -11,12 +11,12 @@ exports.up = pgm => {
       default: pgm.func('uuid_generate_v4()')
     },
     productID: { type: 'uuid', notNull: true, primaryKey: true },
-    size: { type: Number, notNull: false },
-    width: { type: Number, notNull: false },
-    price: { type: Number, notNull: false },
-    length: { type: Number, notNull: false },
-    height: { type: Number, notNull: false },
-    color: { type: Text, notNull: true },
+    size: { type: 'int', notNull: false },
+    width: { type: 'int', notNull: false },
+    price: { type: 'int', notNull: false },
+    length: { type: 'int', notNull: false },
+    height: { type: 'int', notNull: false },
+    color: { type: 'text', notNull: true },
     createdAt: {
       type: 'timestamp',
       notNull: true,
