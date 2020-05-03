@@ -7,7 +7,12 @@ const procedures: { [key: string]: string } = {
                 ON "Product"."userID" = "User"."id"
                 WHERE "status" = '${productStatus.PUBLISHED}'
               `,
-  getArtist: `select * from "User" where "id" = $1`
+
+  getArtist: `select * from "User" where "id" = $1`,
+  catalogue: `SELECT "name"
+              FROM "Catalogue"
+            `
+
 }
 
 const query = async (key: string, value: string[]) => {

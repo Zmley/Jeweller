@@ -5,4 +5,8 @@ axios.defaults.baseURL = localURL
 
 export const getProducts = async () => (await axios.get('/products')).data
 
+
 export const createPayment = async () => (await axios.post('/payment')).data
+
+export const getCatalogues = async () => (await axios.get('/catalogue')).data
+
