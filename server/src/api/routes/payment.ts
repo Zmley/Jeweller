@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express'
 const route = Router()
 
-import query from '../../loaders/db'
+import query from '../../services/db'
 import { makePayment } from '../../services/payment'
 
 export default (app: Router) => {
