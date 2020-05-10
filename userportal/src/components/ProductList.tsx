@@ -35,7 +35,9 @@ const ProductList: React.FC = (props: any, state: any) => {
           <Link to='/product/${JSON.stringify(product)}'>
             <Card
               key={product.id}
-              className={index % 2 === 0 ? 'productCardLeft' : 'productCardRight'}
+              className={
+                index % 2 === 0 ? 'productCardLeft' : 'productCardRight'
+              }
             >
               <CardMedia
                 image={productSample}
@@ -71,10 +73,13 @@ const ProductList: React.FC = (props: any, state: any) => {
                       <Favorite className='like' />
                     </IconButton>
                   ) : (
-                      <IconButton className='button' onClick={() => setLiked(true)}>
-                        <FavoriteBorder className='like' />
-                      </IconButton>
-                    )}
+                    <IconButton
+                      className='button'
+                      onClick={() => setLiked(true)}
+                    >
+                      <FavoriteBorder className='like' />
+                    </IconButton>
+                  )}
                   <Typography
                     variant='body2'
                     color='textSecondary'
