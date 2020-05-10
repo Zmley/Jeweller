@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express'
-import query from '../../loaders/db'
+import query from '../../services/db'
 const route = Router()
 import Logger from '../../loaders/logger' // TODO consider using DI
 

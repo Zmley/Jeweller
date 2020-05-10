@@ -1,18 +1,24 @@
 import { Pool } from 'pg'
 import { productStatus } from '../models'
 const procedures: { [key: string]: string } = {
-  productList: `SELECT "name", "likeCount", "price", "username", "images"
+  productList: `SELECT "Product"."id", "name", "likeCount", "price",  (array_agg("username"))[1], "images",
+                concat('["',
+                (array_agg("Tags"."mainTag"))[1] ,'-',(array_agg("Tags"."subTag"))[1],'","',
+                (array_agg("Tags"."mainTag"))[2] ,'-',(array_agg("Tags"."subTag"))[2],'","',
+                (array_agg("Tags"."mainTag"))[3] ,'-',(array_agg("Tags"."subTag"))[3]
+                ,'"]') as "tags"
                 FROM "Product"
                 LEFT JOIN "User"
                 ON "Product"."userID" = "User"."id"
-                WHERE "status" = '${productStatus.PUBLISHED}'
+                LEFT JOIN "Tags"
+                ON "Product"."tag1" = "Tags"."id" OR "Product"."tag2" = "Tags"."id" OR "Product"."tag3" = "Tags"."id"
+                WHERE "status" = '${productStatus.ENABLED}'
+                GROUP BY "Product"."id"
               `,
-
   getArtist: `select * from "User" where "id" = $1`,
   catalogue: `SELECT "name"
               FROM "Catalogue"
             `
-
 }
 
 const query = async (key: string, value: string[]) => {
