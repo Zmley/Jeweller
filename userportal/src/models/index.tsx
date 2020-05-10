@@ -7,8 +7,9 @@ export type Product = {
   lastUpdatedAt: string
   likeCount: number
   name: string
-  price: string
+  price: number
   status: string
   userID: string
   username: string
+  size: string
 }

@@ -3,8 +3,13 @@
   flex-wrap: wrap;
   justify-content: space-around;
   overflow: hidden;
-}
-.gridList {
-  flex-wrap: nowrap;
-  transform: translateZ(0);
+  .titleBar {
+    padding: 18px 17px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .gridList {
+    flex-wrap: nowrap;
+    transform: translateZ(0);
+  }
 }
