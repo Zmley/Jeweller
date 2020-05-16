@@ -15,7 +15,6 @@ const RelatedProduct: React.FC = (props: any, state: any) => {
     const { data } = result
     setProducts(data)
   }
-  console.log(products)
   return (
     <div className='root'>
       <div className='titleBar'>
