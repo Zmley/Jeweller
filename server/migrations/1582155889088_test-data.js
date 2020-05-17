@@ -27,6 +27,63 @@ exports.up = pgm => {
           INSERT INTO "Product" ("id", "userID", "name", "amount", "likeCount", "images", "description", "price", "status","tag1","tag2") VALUES
           ('f35a5f0c-3e17-11ea-b77f-2e728ce13128', 'f35a5f0c-3e17-11ea-b77f-2e728ce88125', 'test product 7', 5, 99, '', 'https://town-src.s3.amazonaws.com/9.16_AINT_LAPai_JHUGHES_LMcDonald_2_600x800px.jpg', 100.02, 'ENABLED','b0b674e2-8485-40cb-8446-73dab84ff782','3ba99c2a-f4c5-40bb-b606-7f833e82fe62');
           `)
+  const insertProductDetail = (
+    productID,
+    size,
+    width,
+    price,
+    length,
+    height,
+    color
+  ) => {
+    return `INSERT INTO "ProductSize" ("productID", "size", "width", "price", "length", "height", "color") VALUES ('${productID}','${size}',${width},${price},${length},${height},'${color}')`
+  }
+
+  pgm.sql(
+    insertProductDetail(
+      'f35a5f0c-3e17-11ea-b77f-2e728ce88126',
+      'S',
+      15,
+      155.2,
+      16,
+      14,
+      'red'
+    )
+  )
+  pgm.sql(
+    insertProductDetail(
+      'f35a5f0c-3e17-11ea-b77f-2e728ce88126',
+      'M',
+      15,
+      255.2,
+      16,
+      14,
+      'yellow'
+    )
+  )
+  pgm.sql(
+    insertProductDetail(
+      'f35a5f0c-3e17-11ea-b77f-2e728ce88126',
+      'L',
+      15,
+      152.2,
+      16,
+      14,
+      'blue'
+    )
+  )
+  pgm.sql(
+    insertProductDetail(
+      'f35a5f0c-3e17-11ea-b77f-2e728ce88127',
+      '3',
+      15,
+      55.2,
+      16,
+      14,
+      'red'
+    )
+  )
+
   pgm.sql(`
           INSERT INTO "Catalogue" ("name", "level", "father") VALUES
           ('Jewelry', 1, '');

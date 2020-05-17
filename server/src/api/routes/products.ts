@@ -8,9 +8,12 @@ export default (app: Router) => {
 
   route.get('/', async (req: Request, res: Response) => {
     const productList = await query('productList', [])
-
+    const productSizeList = await query('productSizeList', [])
     productList.data.map(product => {
       product.tags = JSON.parse(product.tags)
+      product.selections = productSizeList.data.filter(
+        productSize => productSize.productID === product.id
+      )
       product.tags = product.tags.filter((tag: string) => tag !== '-')
     })
 

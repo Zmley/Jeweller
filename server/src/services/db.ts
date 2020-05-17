@@ -1,7 +1,7 @@
 import { Pool } from 'pg'
 import { productStatus } from '../models'
 const procedures: { [key: string]: string } = {
-  productList: `SELECT "Product"."id", "name", "likeCount", "price",  (array_agg("username"))[1], "images",
+  productList: `SELECT "Product"."id", "name", "likeCount", (array_agg("username"))[1], "images",
                 concat('["',
                 (array_agg("Tags"."mainTag"))[1] ,'-',(array_agg("Tags"."subTag"))[1],'","',
                 (array_agg("Tags"."mainTag"))[2] ,'-',(array_agg("Tags"."subTag"))[2],'","',
@@ -15,10 +15,13 @@ const procedures: { [key: string]: string } = {
                 WHERE "status" = '${productStatus.ENABLED}'
                 GROUP BY "Product"."id"
               `,
+  productSizeList: `select "id","productID","size","width","price","length","height","color" from "ProductSize"`,
   getArtist: `select * from "User" where "id" = $1`,
   catalogue: `SELECT "name"
               FROM "Catalogue"
-            `
+            `,
+  newAddress: ` INSERT INTO "Address" ( "name", "address", "postcode", "phone") VALUES
+          ($1,$2,$3,$4);`
 }
 
 const query = async (key: string, value: string[]) => {
