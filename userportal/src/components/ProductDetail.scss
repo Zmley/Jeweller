@@ -1,0 +1,15 @@
+.productInfo {
+  padding: 15px;
+}
+.btnArea {
+  padding: 20px;
+}
+.radioBox {
+  width: 100%;
+  align-items: center;
+  .radioGroup {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+}

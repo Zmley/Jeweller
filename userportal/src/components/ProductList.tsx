@@ -4,11 +4,9 @@ import { Link } from 'react-router-dom'
 import Card from '@material-ui/core/Card'
 
 import {
-  CardHeader,
   Typography,
   CardMedia,
   CardContent,
-  CardActions,
   IconButton,
   Avatar
 } from '@material-ui/core'
@@ -32,7 +30,12 @@ const ProductList: React.FC = (props: any, state: any) => {
     <div className='productList'>
       {products.length > 0 &&
         products.map((product: Product, index: number) => (
-          <Link to='/product/${JSON.stringify(product)}'>
+          <Link
+            to={{
+              pathname: `/product/${product.name}`,
+              state: { product: product }
+            }}
+          >
             <Card
               key={product.id}
               className={

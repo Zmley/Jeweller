@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { getRelatedProducts } from '../api'
-import { GridList, IconButton } from '@material-ui/core'
+import { GridList, IconButton, Button } from '@material-ui/core'
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
 import GridListTile from '@material-ui/core/GridListTile'
 import './RelatedProducts.scss'
@@ -19,9 +19,13 @@ const RelatedProduct: React.FC = (props: any, state: any) => {
     <div className='root'>
       <div className='titleBar'>
         RECOMENDATIONS, INTERESTING
-        <IconButton color='primary' aria-label='add to shopping cart'>
-          <ArrowForwardIcon />
-        </IconButton>
+        <Button
+          color='default'
+          aria-label='add to shopping cart'
+          endIcon={<ArrowForwardIcon />}
+        >
+          View All
+        </Button>
       </div>
       <GridList className='gridList' cols={2.5}>
         {products.map(product => (

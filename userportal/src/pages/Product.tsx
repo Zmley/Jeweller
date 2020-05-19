@@ -3,12 +3,12 @@ import ProductDetail from '../components/ProductDetail'
 import RelatedProducts from '../components/RelatedProducts'
 
 const Product: React.FC = (props: any, state: any) => {
-    return (
-        <div>
-            <ProductDetail productInfoString={props.params.productInfo} />
-            <RelatedProducts />
-        </div>
-    )
+  return (
+    <div>
+      <ProductDetail product={props.location.state.product} />
+      <RelatedProducts />
+    </div>
+  )
 }
 
 export default Product
