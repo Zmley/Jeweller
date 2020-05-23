@@ -5,25 +5,26 @@ import { Switch, Route } from 'react-router-dom'
 import Followed from './Followed'
 import Home from './Home'
 import Favourite from './Favourite'
+import TitleBar from 'components/TitleBar'
+import Product from './Product'
 
 const App: React.FC = (props: any, state: any) => {
   return (
-    <div className='App'>
-      <Switch>
+    <Switch>
+      <Route path='/product/:name' component={Product}></Route>
+      <div className='App'>
         <Route path='/followed'>
           <Followed />
         </Route>
         <Route path='/favourite'>
           <Favourite />
         </Route>
-        <Route path='/'>
-          <Home />
-        </Route>
-      </Switch>
-      <footer>
-        <TabBar />
-      </footer>
-    </div>
+        <Route exact path='/' render={() => <Home />}></Route>
+        <footer>
+          <TabBar />
+        </footer>
+      </div>
+    </Switch>
   )
 }
 

@@ -34,6 +34,9 @@ exports.up = pgm => {
     amount: { type: 'int', notNull: true },
     likeCount: { type: 'int', notNull: true },
     images: { type: 'varchar(99)' },
+    tag1: { type: 'uuid' },
+    tag2: { type: 'uuid' },
+    tag3: { type: 'uuid' },
     description: 'varchar(199)',
     price: { type: 'numeric(8,2)', notNull: true },
     status: { type: 'varchar(10)', notNull: true },
@@ -47,6 +50,23 @@ exports.up = pgm => {
       notNull: true,
       default: pgm.func('current_timestamp')
     }
+  })
+  pgm.createTable('Catalogue', {
+    id: {
+      type: 'uuid',
+      notNull: true,
+      primaryKey: true,
+      default: pgm.func('uuid_generate_v4()')
+    },
+    name: {
+      type: 'varchar(20)',
+      notNull: true
+    },
+    level: {
+      type: 'int',
+      notNull: true
+    },
+    father: 'varchar(20)'
   })
   pgm.createTable('Images', {
     id: {
@@ -73,6 +93,10 @@ exports.up = pgm => {
       notNull: true,
       primaryKey: true,
       default: pgm.func('uuid_generate_v4()')
+    },
+    userID: {
+      type: 'uuid',
+      notNull: true
     },
     productID: {
       type: 'uuid',

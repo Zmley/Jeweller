@@ -1,0 +1,10 @@
+.galleryBox {
+  padding: 24px 14px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  overflow: hidden;
+  .gridList {
+    max-height: 75vh;
+  }
+}

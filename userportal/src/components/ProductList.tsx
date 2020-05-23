@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { getProducts } from '../api'
+import { Link } from 'react-router-dom'
 import Card from '@material-ui/core/Card'
-
 import {
-  CardHeader,
   Typography,
   CardMedia,
   CardContent,
-  CardActions,
-  IconButton,
-  Avatar
+  IconButton
 } from '@material-ui/core'
 import { FavoriteBorder, Favorite } from '@material-ui/icons'
 import productSample from '../assets/img/productSample.png'
 import './productList.scss'
-
 import { Product } from 'models'
 const ProductList: React.FC = (props: any, state: any) => {
   useEffect(() => {
@@ -32,60 +28,72 @@ const ProductList: React.FC = (props: any, state: any) => {
     <div className='productList'>
       {products.length > 0 &&
         products.map((product: Product, index: number) => (
-          <Card
-            key={product.id}
-            className={index % 2 === 0 ? 'productCardLeft' : 'productCardRight'}
+          <Link
+            to={{
+              pathname: `/product/${product.name}`,
+              state: { product: product }
+            }}
           >
-            <CardMedia
-              image={productSample}
-              title='Paella dish'
-              className='image'
-            />
-            <CardContent className='content'>
-              <Typography
-                variant='body2'
-                color='textSecondary'
-                component='p'
-                align='left'
-                className='productName'
-              >
-                {product.name}
-              </Typography>
-              <Typography
-                variant='body2'
-                color='textSecondary'
-                component='p'
-                align='left'
-                className='userName'
-              >
-                {product.username}
-              </Typography>
-              <div className='likeDislike'>
-                {/* This part is a future item, hasn't been implemented since we dont have favourite data yet. */}
-                {liked ? (
-                  <IconButton
-                    className='button'
-                    onClick={() => setLiked(false)}
-                  >
-                    <Favorite className='like' />
-                  </IconButton>
-                ) : (
-                  <IconButton className='button' onClick={() => setLiked(true)}>
-                    <FavoriteBorder className='like' />
-                  </IconButton>
-                )}
+            <Card
+              key={product.id}
+              className={
+                index % 2 === 0 ? 'productCardLeft' : 'productCardRight'
+              }
+            >
+              <CardMedia
+                image={productSample}
+                title='Paella dish'
+                className='image'
+              />
+              <CardContent className='content'>
                 <Typography
                   variant='body2'
                   color='textSecondary'
                   component='p'
                   align='left'
-                  className='count'
+                  className='productName'
                 >
-                  {product.likeCount}
+                  {product.name}
                 </Typography>
-              </div>
-            </CardContent>
-          </Card>
+                <Typography
+                  variant='body2'
+                  color='textSecondary'
+                  component='p'
+                  align='left'
+                  className='userName'
+                >
+                  {product.username}
+                </Typography>
+                <div className='likeDislike'>
+                  {/* This part is a future item, hasn't been implemented since we dont have favourite data yet. */}
+                  {liked ? (
+                    <IconButton
+                      className='button'
+                      onClick={() => setLiked(false)}
+                    >
+                      <Favorite className='like' />
+                    </IconButton>
+                  ) : (
+                    <IconButton
+                      className='button'
+                      onClick={() => setLiked(true)}
+                    >
+                      <FavoriteBorder className='like' />
+                    </IconButton>
+                  )}
+                  <Typography
+                    variant='body2'
+                    color='textSecondary'
+                    component='p'
+                    align='left'
+                    className='count'
+                  >
+                    {product.likeCount}
+                  </Typography>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
         ))}
     </div>
   )
