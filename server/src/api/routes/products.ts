@@ -13,7 +13,6 @@ export default (app: Router) => {
       product.tags = JSON.parse(product.tags)
       product.tags = product.tags.filter((tag: string) => tag !== '-')
     })
-
     return res.json(productList).status(200)
   })
 }

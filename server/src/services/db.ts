@@ -1,7 +1,7 @@
 import { Pool } from 'pg'
 import { productStatus } from '../models'
 const procedures: { [key: string]: string } = {
-  productList: `SELECT "Product"."id", "name", "likeCount", "price",  (array_agg("username"))[1], "images",
+  productList: `SELECT "Product"."id", "name", "User"."id" as "artistID", "likeCount", "price",  (array_agg("username"))[1] as "artistName", "images",
                 concat('["',
                 (array_agg("Tags"."mainTag"))[1] ,'-',(array_agg("Tags"."subTag"))[1],'","',
                 (array_agg("Tags"."mainTag"))[2] ,'-',(array_agg("Tags"."subTag"))[2],'","',
@@ -13,7 +13,7 @@ const procedures: { [key: string]: string } = {
                 LEFT JOIN "Tags"
                 ON "Product"."tag1" = "Tags"."id" OR "Product"."tag2" = "Tags"."id" OR "Product"."tag3" = "Tags"."id"
                 WHERE "status" = '${productStatus.ENABLED}'
-                GROUP BY "Product"."id"
+                GROUP BY "Product"."id", "User"."id"
               `,
   getArtist: `select * from "User" where "id" = $1`,
   catalogue: `SELECT "name"
