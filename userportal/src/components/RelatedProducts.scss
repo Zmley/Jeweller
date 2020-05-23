@@ -1,15 +1,12 @@
-.root {
+.titleBar {
+  padding: 14px 14px;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  overflow: hidden;
-  .titleBar {
-    padding: 18px 17px;
-    display: flex;
-    justify-content: space-between;
-  }
-  .gridList {
-    flex-wrap: nowrap;
-    transform: translateZ(0);
-  }
+  align-items: center;
+  background-color: #fcfcfc;
+  justify-content: space-between;
+  font-size: 12px;
+}
+.gridList {
+  flex-wrap: nowrap;
+  transform: translateZ(0);
 }

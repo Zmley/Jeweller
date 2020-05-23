@@ -6,7 +6,12 @@
 }
 .radioBox {
   width: 100%;
-  align-items: center;
+  .formLabel {
+    text-align: center;
+    margin: 10px;
+    color: #000;
+    font-weight: 600;
+  }
   .radioGroup {
     display: flex;
     flex-direction: row;

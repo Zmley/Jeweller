@@ -22,5 +22,14 @@
         height: 1em;
       }
     }
+    .gridList {
+      flex-wrap: nowrap;
+      .chip {
+        height: auto !important;
+        margin: 6px;
+        background-color: #000;
+        color: #fff;
+      }
+    }
   }
 }

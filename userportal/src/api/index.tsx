@@ -10,4 +10,5 @@ export const getArtist = async (id: string) =>
 
 export const createPayment = async () => (await axios.post('/payment')).data
 
-export const getCatalogues = async () => (await axios.get('/catalogue')).data
+export const getCatalogues = async () =>
+  (await axios.get('users/catalogue')).data

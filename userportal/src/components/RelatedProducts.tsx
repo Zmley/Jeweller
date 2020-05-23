@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { getRelatedProducts } from '../api'
-import { GridList, IconButton, Button } from '@material-ui/core'
+import { GridList, Grid, Typography, Button } from '@material-ui/core'
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
 import GridListTile from '@material-ui/core/GridListTile'
 import './RelatedProducts.scss'
@@ -16,17 +16,20 @@ const RelatedProduct: React.FC = (props: any, state: any) => {
     setProducts(data)
   }
   return (
-    <div className='root'>
-      <div className='titleBar'>
-        RECOMENDATIONS, INTERESTING
+    <Grid container direction='column'>
+      <Grid item className='titleBar'>
+        <Typography variant='caption' component='span'>
+          RECOMENDATIONS
+        </Typography>
         <Button
           color='default'
+          size='small'
           aria-label='add to shopping cart'
           endIcon={<ArrowForwardIcon />}
         >
           View All
         </Button>
-      </div>
+      </Grid>
       <GridList className='gridList' cols={2.5}>
         {products.map(product => (
           <GridListTile key={product}>
@@ -34,7 +37,7 @@ const RelatedProduct: React.FC = (props: any, state: any) => {
           </GridListTile>
         ))}
       </GridList>
-    </div>
+    </Grid>
   )
 }
 

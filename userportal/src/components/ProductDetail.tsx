@@ -37,12 +37,11 @@ const ProductDetail: React.FC<ProductProps> = (
     loadArtist()
   }, [])
   const [artist, setArtist] = useState()
+  const [liked, setLiked] = useState(false)
   const loadArtist = async () => {
     const result = await getArtist(props.product.artistID)
-    console.log(result)
     setArtist(result)
   }
-  console.log(artist)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setProduct({
       ...product,
@@ -57,10 +56,10 @@ const ProductDetail: React.FC<ProductProps> = (
           <Grid item xs={12} container className='productInfo'>
             <Grid xs={10} container direction='column'>
               <Grid item xs>
-                <Typography gutterBottom variant='h4'>
+                <Typography gutterBottom variant='subtitle1'>
                   {product.name}
                 </Typography>
-                <Typography variant='body2'>${product.price}</Typography>
+                <Typography variant='h4'>${product.price}</Typography>
               </Grid>
               <Grid item xs>
                 <Typography variant='body2' color='textSecondary'>
@@ -68,10 +67,32 @@ const ProductDetail: React.FC<ProductProps> = (
                 </Typography>
               </Grid>
             </Grid>
-            <Grid item xs>
-              <IconButton className='button'>
-                <Favorite className='like' />
-              </IconButton>
+            <Grid item xs container direction='column' alignItems='center'>
+              <Grid item>
+                {liked ? (
+                  <IconButton
+                    className='button'
+                    onClick={() => setLiked(false)}
+                  >
+                    <Favorite className='like' />
+                  </IconButton>
+                ) : (
+                  <IconButton className='button' onClick={() => setLiked(true)}>
+                    <FavoriteBorder className='like' />
+                  </IconButton>
+                )}
+              </Grid>
+              <Grid item>
+                <Typography
+                  variant='body2'
+                  color='textSecondary'
+                  component='p'
+                  align='left'
+                  className='count'
+                >
+                  {product.likeCount}
+                </Typography>
+              </Grid>
             </Grid>
           </Grid>
           <Grid
@@ -93,41 +114,48 @@ const ProductDetail: React.FC<ProductProps> = (
                 <Avatar src={sample}></Avatar>
               </ListItemAvatar>
               <ListItemText primary={artist.username} secondary={artist.role} />
-              <ArrowForward />
+              <IconButton aria-label='delete'>
+                <ArrowForward fontSize='small' />
+              </IconButton>
             </ListItem>
           )}
           <Divider />
           <ListItem>
             <FormControl component='fieldset' className='radioBox'>
-              <FormLabel component='legend'>Size</FormLabel>
+              <FormLabel component='span' className='formLabel'>
+                Size
+              </FormLabel>
               <RadioGroup
                 aria-label='gender'
                 name='size'
                 value={product.size}
                 onChange={handleChange}
                 className='radioGroup'
+                row
               >
                 <FormControlLabel
                   value='female'
                   control={<Radio />}
                   label='Female'
+                  labelPlacement='bottom'
                 />
                 <FormControlLabel
                   value='male'
                   control={<Radio />}
                   label='Male'
+                  labelPlacement='bottom'
                 />
                 <FormControlLabel
                   value='other'
                   control={<Radio />}
                   label='Other'
+                  labelPlacement='bottom'
                 />
               </RadioGroup>
             </FormControl>
           </ListItem>
           <Divider />
           <ListItem></ListItem>
-          <Divider />
         </List>
       </Paper>
     </div>

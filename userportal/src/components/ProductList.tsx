@@ -2,13 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { getProducts } from '../api'
 import { Link } from 'react-router-dom'
 import Card from '@material-ui/core/Card'
-
 import {
   Typography,
   CardMedia,
   CardContent,
-  IconButton,
-  Avatar
+  IconButton
 } from '@material-ui/core'
 import { FavoriteBorder, Favorite } from '@material-ui/icons'
 import productSample from '../assets/img/productSample.png'
