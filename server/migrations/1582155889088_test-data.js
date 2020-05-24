@@ -7,7 +7,7 @@ exports.up = pgm => {
           INSERT INTO "User" ("id", username, "role", "avatar", "sessionKey", "password", "Email", "postalCode") VALUES
           ('f35a5f0c-3e17-11ea-b77f-2e728ce88125', 'test user 1', 'ARTIST', '', '6783a83c-a65a-4f86-81d7-9bdec83c519e', 'renmendou950214', 'renmendou@gmail.com', 'B3H1J2');
           INSERT INTO "User" ("id", username, "role", "avatar", "sessionKey", "password", "Email", "postalCode") VALUES
-          ('182351ca-dde8-46bb-a87c-2a2fc5a17bac', 'test user 2', 'ARTIST', '', '182351ca-dde8-46bb-a87c-2a2fc5a17bac', 'AegeanSea', 'aegeansea@gmail.com', 'B3H3D6');
+          ('182351ca-dde8-46bb-a87c-2a2fc5a17bac', 'test user 2', 'ARTIST', 'https://trello-members.s3.amazonaws.com/5cc48541dc11ce80fc66bf39/a190b8c9675a6cc8c52052612fa0cffc/original.png', '182351ca-dde8-46bb-a87c-2a2fc5a17bac', 'AegeanSea', 'aegeansea@gmail.com', 'B3H3D6');
            INSERT INTO "User" ("id", username, "role", "avatar", "sessionKey", "password", "Email", "postalCode") VALUES
           ('182351ca-dde8-42bb-a87c-1a3fc5a17bac', 'test user 3', 'CUSTOMER', '', '122351ca-dde8-26bb-a87c-2a2fc3a17bac', 'Town', 'town@town.com', 'B3H3D6');
           `)
@@ -19,7 +19,7 @@ exports.up = pgm => {
           INSERT INTO "Product" ("id", "userID", "name", "amount", "likeCount", "images", "description", "price", "status","tag1","tag2") VALUES
           ('f35a5f0c-3e17-11ea-b77f-2e728ce88128', '182351ca-dde8-46bb-a87c-2a2fc5a17bac', 'test product 3', 100, 2, '', 'https://town-src.s3.amazonaws.com/60282_van-Niekerk_Lani_dec16_07.jpg', 14.02, 'ENABLED','30ec072d-73af-4bac-816c-214defa5285b','cbb94b73-3b55-4475-995a-dc62ac887340');
           INSERT INTO "Product" ("id", "userID", "name", "amount", "likeCount", "images", "description", "price", "status","tag1") VALUES
-          ('f35a5f0c-3e17-11ea-b77f-2e728ce88129', '182351ca-dde8-46bb-a87c-2a2fc5a17bac', 'test product 4', 100, 8, '', 'https://town-src.s3.amazonaws.com/77598_Goss_Grace_July19_10.JPG', 24.02, 'ENABLED','52e7e43d-4953-4e57-99cd-5e8c59127cb4');
+          ('f35a5f0c-3e17-11ea-b77f-2e728ce88129', '182351ca-dde8-46bb-a87c-2a2fc5a17bac', 'test product 4', 100, 8, '', 'https://town-src.s3.amazonaws.com/77598_Goss_Grace_July19_10.JPG', 24.02, 'SOLD','52e7e43d-4953-4e57-99cd-5e8c59127cb4');
           INSERT INTO "Product" ("id", "userID", "name", "amount", "likeCount", "images", "description", "price", "status","tag1") VALUES
           ('f35a5f0c-3e17-11ea-b77f-2e728ce88138', 'f35a5f0c-3e17-11ea-b77f-2e728ce88125', 'test product 5', 20, 10, '', 'https://town-src.s3.amazonaws.com/77598_Goss_Grace_July19_10.JPG', 44.02, 'DISABLED','d95e4b93-dd33-44dd-aba2-b8cbac905e91');
           INSERT INTO "Product" ("id", "userID", "name", "amount", "likeCount", "images", "description", "price", "status","tag1") VALUES
@@ -27,6 +27,63 @@ exports.up = pgm => {
           INSERT INTO "Product" ("id", "userID", "name", "amount", "likeCount", "images", "description", "price", "status","tag1","tag2") VALUES
           ('f35a5f0c-3e17-11ea-b77f-2e728ce13128', 'f35a5f0c-3e17-11ea-b77f-2e728ce88125', 'test product 7', 5, 99, '', 'https://town-src.s3.amazonaws.com/9.16_AINT_LAPai_JHUGHES_LMcDonald_2_600x800px.jpg', 100.02, 'ENABLED','b0b674e2-8485-40cb-8446-73dab84ff782','3ba99c2a-f4c5-40bb-b606-7f833e82fe62');
           `)
+  const insertProductDetail = (
+    productID,
+    size,
+    width,
+    price,
+    length,
+    height,
+    color
+  ) => {
+    return `INSERT INTO "ProductSize" ("productID", "size", "width", "price", "length", "height", "color") VALUES ('${productID}','${size}',${width},${price},${length},${height},'${color}')`
+  }
+
+  pgm.sql(
+    insertProductDetail(
+      'f35a5f0c-3e17-11ea-b77f-2e728ce88126',
+      'S',
+      15,
+      155.2,
+      16,
+      14,
+      'red'
+    )
+  )
+  pgm.sql(
+    insertProductDetail(
+      'f35a5f0c-3e17-11ea-b77f-2e728ce88126',
+      'M',
+      15,
+      255.2,
+      16,
+      14,
+      'yellow'
+    )
+  )
+  pgm.sql(
+    insertProductDetail(
+      'f35a5f0c-3e17-11ea-b77f-2e728ce88126',
+      'L',
+      15,
+      152.2,
+      16,
+      14,
+      'blue'
+    )
+  )
+  pgm.sql(
+    insertProductDetail(
+      'f35a5f0c-3e17-11ea-b77f-2e728ce88127',
+      '3',
+      15,
+      55.2,
+      16,
+      14,
+      'red'
+    )
+  )
+
   pgm.sql(`
           INSERT INTO "Catalogue" ("name", "level", "father") VALUES
           ('Jewelry', 1, '');

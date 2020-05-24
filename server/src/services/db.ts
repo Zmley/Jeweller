@@ -1,7 +1,7 @@
 import { Pool } from 'pg'
 import { productStatus } from '../models'
 const procedures: { [key: string]: string } = {
-  productList: `SELECT "Product"."id", "name", "User"."id" as "artistID", "likeCount", "price",  (array_agg("username"))[1] as "artistName", "images",
+  productList: `SELECT "Product"."id", "name", "likeCount", "images", "description", "User"."id" as "artistID", (array_agg("username"))[1] as "artistName",
                 concat('["',
                 (array_agg("Tags"."mainTag"))[1] ,'-',(array_agg("Tags"."subTag"))[1],'","',
                 (array_agg("Tags"."mainTag"))[2] ,'-',(array_agg("Tags"."subTag"))[2],'","',
@@ -15,12 +15,33 @@ const procedures: { [key: string]: string } = {
                 WHERE "status" = '${productStatus.ENABLED}'
                 GROUP BY "Product"."id", "User"."id"
               `,
-  getArtist: `select * from "User" where "id" = $1`,
+  productSizeList: `select "id","productID","size","width","price"::float,"length","height","color" from "ProductSize"`,
   catalogue: `SELECT "name"
               FROM "Catalogue"
-            `
+            `,
+  newAddress: `INSERT INTO "Address" ( "name", "address", "postcode", "phone") VALUES
+              ($1,$2,$3,$4);`,
+  likeProduct: `UPDATE "Product" SET "likeCount" =  (COALESCE("likeCount",'0')::int + 1) WHERE id = $1 RETURNING "id" as "productID", "likeCount";`,
+  dislikeProduct: `UPDATE "Product" SET "likeCount" =  (COALESCE("likeCount",'0')::int - 1) WHERE id = $1 RETURNING "id" as "productID", "likeCount";`,
+  getArtist: `Select "User"."id" as "id", "username", "role", "avatar", "User"."createdAt", "User"."lastUpdatedAt", "description", "backgroundImage"
+              from "User"
+              inner join "Artist" on "Artist"."id" = "User"."id"
+              where "User"."id" = $1
+              `,
+  getArtistProducts: `SELECT "Product"."id", "name", "likeCount", (array_agg("username"))[1] as "artistName", "images", "description", "status",
+                concat('["',
+                (array_agg("Tags"."mainTag"))[1] ,'-',(array_agg("Tags"."subTag"))[1],'","',
+                (array_agg("Tags"."mainTag"))[2] ,'-',(array_agg("Tags"."subTag"))[2],'","',
+                (array_agg("Tags"."mainTag"))[3] ,'-',(array_agg("Tags"."subTag"))[3]
+                ,'"]') as "tags"
+                FROM "Product"
+                LEFT JOIN "User"
+                ON "Product"."userID" = "User"."id"
+                LEFT JOIN "Tags"
+                ON "Product"."tag1" = "Tags"."id" OR "Product"."tag2" = "Tags"."id" OR "Product"."tag3" = "Tags"."id"
+                WHERE ("status" = '${productStatus.SOLD}' or  "status" = '${productStatus.ENABLED}') and "User"."id" = $1
+                GROUP BY "Product"."id" `
 }
-
 const query = async (key: string, value: string[]) => {
   const pool = new Pool({
     user: process.env.DB_USER,
