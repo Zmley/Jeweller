@@ -19,6 +19,9 @@ export default (app: Router) => {
   route.get('/artist', async (req: Request, res: Response) => {
     const { id } = req.query
     const artist = await query('getArtist', [id])
+    const productList = await query('getArtistProducts', [id])
+    artist.data[0].products = productList.data
+
     return res.json(artist.data.shift()).status(200)
   })
 

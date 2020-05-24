@@ -1,7 +1,8 @@
 export enum productStatus {
   PUBLISHED = 'PUBLISHED',
   ENABLED = 'ENABLED',
-  DISABLED = 'DISABLED'
+  DISABLED = 'DISABLED',
+  SOLD = 'SOLD'
 }
 
 export interface Address {

@@ -17,6 +17,24 @@ export default (app: Router) => {
       product.tags = product.tags.filter((tag: string) => tag !== '-')
     })
 
-    return res.json(productList).status(200)
+    res.json(productList).status(200)
+  })
+  route.put('/like', async (req: Request, res: Response) => {
+    const { productID } = req.body
+    try {
+      const likeProduct = await query('likeProduct', [productID])
+      res.json(likeProduct).status(200)
+    } catch (error) {
+      res.json('Invalid productID').status(200)
+    }
+  })
+  route.put('/dislike', async (req: Request, res: Response) => {
+    const { productID } = req.body
+    try {
+      const likeProduct = await query('dislikeProduct', [productID])
+      res.json(likeProduct).status(200)
+    } catch (error) {
+      res.json('Invalid productID').status(200)
+    }
   })
 }
