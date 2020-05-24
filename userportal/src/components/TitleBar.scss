@@ -1,0 +1,17 @@
+.titlebar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .back {
+    margin: 10px 14px;
+  }
+  .title {
+    font-size: 20px;
+  }
+  .cart {
+    width: 15px;
+    height: 14px;
+    object-fit: fill;
+    margin: 10px 14px;
+  }
+}

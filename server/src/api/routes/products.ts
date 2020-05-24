@@ -1,23 +1,16 @@
 import { Router, Request, Response } from 'express'
 const route = Router()
-
 import query from '../../services/db'
+import { getProducts } from '../../services/productList'
 
 export default (app: Router) => {
   app.use('/products', route)
 
   route.get('/', async (req: Request, res: Response) => {
     const productList = await query('productList', [])
-    const productSizeList = await query('productSizeList', [])
-    productList.data.map(product => {
-      product.tags = JSON.parse(product.tags)
-      product.selections = productSizeList.data.filter(
-        productSize => productSize.productID === product.id
-      )
-      product.tags = product.tags.filter((tag: string) => tag !== '-')
-    })
+    const products = await getProducts(productList.data)
 
-    res.json(productList).status(200)
+    res.json(products).status(200)
   })
   route.put('/like', async (req: Request, res: Response) => {
     const { productID } = req.body

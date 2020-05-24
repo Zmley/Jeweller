@@ -1,7 +1,7 @@
 import { Pool } from 'pg'
 import { productStatus } from '../models'
 const procedures: { [key: string]: string } = {
-  productList: `SELECT "Product"."id", "name", "likeCount", (array_agg("username"))[1], "images", "price", "description",
+  productList: `SELECT "Product"."id", "name", "likeCount", "images", "description", "User"."id" as "artistID", (array_agg("username"))[1] as "artistName",
                 concat('["',
                 (array_agg("Tags"."mainTag"))[1] ,'-',(array_agg("Tags"."subTag"))[1],'","',
                 (array_agg("Tags"."mainTag"))[2] ,'-',(array_agg("Tags"."subTag"))[2],'","',
@@ -13,9 +13,9 @@ const procedures: { [key: string]: string } = {
                 LEFT JOIN "Tags"
                 ON "Product"."tag1" = "Tags"."id" OR "Product"."tag2" = "Tags"."id" OR "Product"."tag3" = "Tags"."id"
                 WHERE "status" = '${productStatus.ENABLED}'
-                GROUP BY "Product"."id"
+                GROUP BY "Product"."id", "User"."id"
               `,
-  productSizeList: `select "id","productID","size","width","price","length","height","color" from "ProductSize"`,
+  productSizeList: `select "id","productID","size","width","price"::float,"length","height","color" from "ProductSize"`,
   catalogue: `SELECT "name"
               FROM "Catalogue"
             `,
@@ -28,7 +28,7 @@ const procedures: { [key: string]: string } = {
               inner join "Artist" on "Artist"."id" = "User"."id"
               where "User"."id" = $1
               `,
-  getArtistProducts: `SELECT "Product"."id", "name", "likeCount", (array_agg("username"))[1], "images", "price", "description", "status",
+  getArtistProducts: `SELECT "Product"."id", "name", "likeCount", (array_agg("username"))[1] as "artistName", "images", "description", "status",
                 concat('["',
                 (array_agg("Tags"."mainTag"))[1] ,'-',(array_agg("Tags"."subTag"))[1],'","',
                 (array_agg("Tags"."mainTag"))[2] ,'-',(array_agg("Tags"."subTag"))[2],'","',

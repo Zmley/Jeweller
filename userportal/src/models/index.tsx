@@ -3,12 +3,21 @@ export type Product = {
   createdAt: string
   description: string
   id: string
-  images: string
+  images: string[]
   lastUpdatedAt: string
   likeCount: number
   name: string
-  price: string
+  price: number
   status: string
   userID: string
   username: string
+  size: string
+  artistName: string
+  artistID: string
+}
+export type User = {
+  username: string
+  role: string
+  avartar: string
+  id: string
 }
