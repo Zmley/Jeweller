@@ -7,6 +7,7 @@ import { TextField, GridList } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
 import Slider from './Slider'
 import { getCatalogues } from '../api'
+import { CodeSharp } from '@material-ui/icons'
 
 const Header: React.FC = (props: any, state: any) => {
   const [catalogues, setCatalogues] = useState([])
@@ -42,8 +43,9 @@ const Header: React.FC = (props: any, state: any) => {
         <Grid item xs={12}>
           <GridList className='gridList' cols={2.5}>
             {catalogues.length > 0 &&
-              catalogues.map((catalogue: any) => (
+              catalogues.map((catalogue: any, index: number) => (
                 <Chip
+                  key={index}
                   size='small'
                   label={catalogue.name}
                   onClick={handleClick}

@@ -20,15 +20,14 @@ const ProductList: React.FC = (props: any, state: any) => {
   const [liked, setLiked] = useState(false)
   const loadProducts = async () => {
     const result = await getProducts()
-    const { data } = result
-    setProducts(data)
+    setProducts(result)
   }
-  console.log(products)
   return (
     <div className='productList'>
       {products.length > 0 &&
         products.map((product: Product, index: number) => (
           <Link
+            key={product.id}
             to={{
               pathname: `/product/${product.name}`,
               state: { product: product }

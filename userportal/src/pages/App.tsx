@@ -10,9 +10,10 @@ import Product from './Product'
 
 const App: React.FC = (props: any, state: any) => {
   return (
-    <Switch>
-      <Route path='/product/:name' component={Product}></Route>
-      <div className='App'>
+    <div className='App'>
+      <TitleBar />
+      <Switch>
+        <Route path='/product/:name' component={Product}></Route>
         <Route path='/followed'>
           <Followed />
         </Route>
@@ -20,11 +21,15 @@ const App: React.FC = (props: any, state: any) => {
           <Favourite />
         </Route>
         <Route exact path='/' render={() => <Home />}></Route>
-        <footer>
-          <TabBar />
-        </footer>
-      </div>
-    </Switch>
+      </Switch>
+      {window.location.pathname === '/' ||
+        window.location.pathname === '/followed' ||
+        (window.location.pathname === '/favourite' && (
+          <footer>
+            <TabBar />
+          </footer>
+        ))}
+    </div>
   )
 }
 
