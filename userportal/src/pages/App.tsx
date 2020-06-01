@@ -22,13 +22,13 @@ const App: React.FC = (props: any, state: any) => {
         </Route>
         <Route exact path='/' render={() => <Home />}></Route>
       </Switch>
-      {window.location.pathname === '/' ||
+      {(window.location.pathname === '/' ||
         window.location.pathname === '/followed' ||
-        (window.location.pathname === '/favourite' && (
-          <footer>
-            <TabBar />
-          </footer>
-        ))}
+        window.location.pathname === '/favourite') && (
+        <footer>
+          <TabBar />
+        </footer>
+      )}
     </div>
   )
 }

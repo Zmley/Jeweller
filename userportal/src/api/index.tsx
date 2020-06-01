@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { useAuth0 } from '../react-auth0-spa'
+
 const localURL = 'http://localhost:8000/api'
 const devURL = 'http://towntime.ca:3000'
 axios.defaults.baseURL = localURL

@@ -66,7 +66,6 @@ export const Auth0Provider = ({
       setPopupOpen(false)
     }
     const user = await auth0Client.getUser()
-    console.log(user)
     setUser(user)
     setIsAuthenticated(true)
   }
