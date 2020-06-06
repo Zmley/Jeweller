@@ -9,7 +9,7 @@ export default async ({ app }: { app: express.Application }) => {
   // Useful if you"re behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
   // It shows the real origin IP in the heroku or Cloudwatch logs
   app.enable('trust proxy')
-
+  app.use(config.jwtCheck)
   // The magic package that prevents frontend developers going nuts
   // Alternate description:
   // Enable Cross Origin Resource Sharing to all origins by default
@@ -40,10 +40,7 @@ export default async ({ app }: { app: express.Application }) => {
      * Handle 401 thrown by express-jwt library
      */
     if (err.name === 'UnauthorizedError') {
-      return res
-        .status(err.status)
-        .send({ message: err.message })
-        .end()
+      return res.status(err.status).send({ message: err.message }).end()
     }
     return next(err)
   })
