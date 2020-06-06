@@ -4,9 +4,10 @@ import cart from '../assets/img/Cart.png'
 import './TitleBar.scss'
 import { useAuth0 } from '../react-auth0-spa'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
+import { Button } from '@material-ui/core'
 
 const Titlebar: React.FC = (props: any, state: any) => {
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0()
+  const { isAuthenticated, logout } = useAuth0()
   return (
     <div className='titlebar'>
       {!(
@@ -18,12 +19,14 @@ const Titlebar: React.FC = (props: any, state: any) => {
           <ArrowBackIcon className='back' />
         </Link>
       )}
-
-      {!isAuthenticated && (
-        <button onClick={() => loginWithRedirect()}>Log in</button>
+      {!isAuthenticated ? (
+        <Link to='/'>
+          <Button href='/'>SHOP</Button>
+        </Link>
+      ) : (
+        <Button onClick={() => logout()}>logout</Button>
       )}
 
-      {isAuthenticated && <button onClick={() => logout()}>Log out</button>}
       {!(
         window.location.pathname === '/' ||
         window.location.pathname === '/followed' ||

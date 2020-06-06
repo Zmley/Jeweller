@@ -41,7 +41,7 @@ const Header: React.FC = (props: any, state: any) => {
           <img src={cart} className='cart'></img>
         </Grid>
         <Grid item xs={12}>
-          <GridList className='gridList' cols={2.5}>
+          <GridList className='gridList'>
             {catalogues.length > 0 &&
               catalogues.map((catalogue: any, index: number) => (
                 <Chip

@@ -12,14 +12,18 @@ import { FavoriteBorder, Favorite } from '@material-ui/icons'
 import productSample from '../assets/img/productSample.png'
 import './productList.scss'
 import { Product } from 'models'
+import { useAuth0 } from '../react-auth0-spa'
+
 const ProductList: React.FC = (props: any, state: any) => {
+  const { getTokenSilently } = useAuth0()
   useEffect(() => {
     loadProducts()
   }, [])
   const [products, setProducts] = useState([])
   const [liked, setLiked] = useState(false)
   const loadProducts = async () => {
-    const result = await getProducts()
+    const token = await getTokenSilently()
+    const result = await getProducts(token)
     setProducts(result)
   }
   return (
