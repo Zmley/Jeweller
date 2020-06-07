@@ -5,7 +5,6 @@ const devURL = 'http://towntime.ca:3000'
 axios.defaults.baseURL = localURL
 
 export const getProducts = async (token: any) => {
-  console.log(token)
   axios.defaults.headers = { Authorization: `Bearer ${token}` }
   return (await axios.get('/products')).data
 }

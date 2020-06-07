@@ -6,13 +6,18 @@ import { Button } from '@material-ui/core'
 
 const Home: React.FC = (props: any, state: any) => {
   const { isAuthenticated, loginWithRedirect } = useAuth0()
-  return isAuthenticated ? (
-    <div>
-      <Header />
-      <ProductList />
-    </div>
-  ) : (
-    <Button onClick={() => loginWithRedirect()}>Log in</Button>
+  return (
+    <>
+      {!isAuthenticated && (
+        <Button onClick={() => loginWithRedirect()}>Log in</Button>
+      )}
+      {isAuthenticated && (
+        <div>
+          <Header />
+          <ProductList />
+        </div>
+      )}
+    </>
   )
 }
 
