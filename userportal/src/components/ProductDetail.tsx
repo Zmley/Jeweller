@@ -6,15 +6,10 @@ import { ArrowForward, Favorite, FavoriteBorder } from '@material-ui/icons'
 import {
   Grid,
   Button,
-  FormLabel,
-  FormControl,
-  FormControlLabel,
   IconButton,
   Typography,
   Divider,
   List,
-  Radio,
-  RadioGroup,
   ListItem,
   ListItemText,
   ListItemAvatar,
@@ -23,6 +18,7 @@ import {
 import { getArtist } from '../api/index'
 import { Product, User } from '../models'
 import './ProductDetail.scss'
+import StyleRadio from './Radio'
 
 type ProductProps = {
   product: Product
@@ -34,14 +30,18 @@ const ProductDetail: React.FC<ProductProps> = (
 ) => {
   const [product, setProduct] = useState(props.product)
   useEffect(() => {
-    loadArtist()
+    const loadArtist = async () => {
+      const result = await getArtist(props.product.artistID)
+      setArtist(result)
+    }
   }, [])
   const [artist, setArtist] = useState()
+  const [color, setColor] = useState(true)
+  const [size, setSize] = useState(true)
+  const [selectedColor, setSelectedColor] = useState()
+  const [selectedSize, setSelectedSize] = useState()
   const [liked, setLiked] = useState(false)
-  const loadArtist = async () => {
-    const result = await getArtist(props.product.artistID)
-    setArtist(result)
-  }
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setProduct({
       ...product,
@@ -107,55 +107,68 @@ const ProductDetail: React.FC<ProductProps> = (
           </Grid>
         </Grid>
         <List>
-          <Divider />
           {artist && (
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar src={sample}></Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={artist.username} secondary={artist.role} />
-              <IconButton aria-label='delete'>
-                <ArrowForward fontSize='small' />
-              </IconButton>
-            </ListItem>
+            <>
+              <Divider />
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar src={sample}></Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={artist.username}
+                  secondary={artist.role}
+                />
+                <IconButton aria-label='delete'>
+                  <ArrowForward fontSize='small' />
+                </IconButton>
+              </ListItem>
+            </>
           )}
           <Divider />
-          <ListItem>
-            <FormControl component='fieldset' className='radioBox'>
-              <FormLabel component='span' className='formLabel'>
-                Size
-              </FormLabel>
-              <RadioGroup
-                aria-label='gender'
-                name='size'
-                value={product.size}
-                onChange={handleChange}
-                className='radioGroup'
-                row
-              >
-                <FormControlLabel
-                  value='female'
-                  control={<Radio />}
-                  label='Female'
-                  labelPlacement='bottom'
+          {size && (
+            <>
+              <Typography variant='body2' component='p' align='center'>
+                SIZE
+              </Typography>
+              <ListItem>
+                <StyleRadio
+                  checked={selectedColor === size}
+                  onChange={e => setSelectedColor(e.target.value)}
                 />
-                <FormControlLabel
-                  value='male'
-                  control={<Radio />}
-                  label='Male'
-                  labelPlacement='bottom'
+                <StyleRadio
+                  checked={selectedColor === size}
+                  onChange={e => setSelectedColor(e.target.value)}
                 />
-                <FormControlLabel
-                  value='other'
-                  control={<Radio />}
-                  label='Other'
-                  labelPlacement='bottom'
+                <StyleRadio
+                  checked={selectedColor === size}
+                  onChange={e => setSelectedColor(e.target.value)}
                 />
-              </RadioGroup>
-            </FormControl>
-          </ListItem>
-          <Divider />
-          <ListItem></ListItem>
+              </ListItem>
+              <Divider />
+            </>
+          )}
+          {color && (
+            <>
+              <Typography variant='body2' component='p' align='center'>
+                COLOR
+              </Typography>
+              <ListItem>
+                <StyleRadio
+                  checked={selectedColor === color}
+                  onChange={e => setSelectedColor(e.target.value)}
+                />
+                <StyleRadio
+                  checked={selectedColor === color}
+                  onChange={e => setSelectedColor(e.target.value)}
+                />
+                <StyleRadio
+                  checked={selectedColor === color}
+                  onChange={e => setSelectedColor(e.target.value)}
+                />
+              </ListItem>
+              <Divider />
+            </>
+          )}
         </List>
       </Paper>
     </div>
