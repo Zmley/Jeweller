@@ -30,4 +30,16 @@ export default (app: Router) => {
     const catalogue = await query('catalogue', [])
     return res.json(catalogue).status(200)
   })
+
+  route.patch('/follow', async (req: Request, res: Response) => {
+    const { userID, artistID } = req.body.data
+    const catalogue = await query('follow', [userID, artistID])
+    return res.json(catalogue).status(200)
+  })
+
+  route.patch('/unfollow', async (req: Request, res: Response) => {
+    const { userID, artistID } = req.body.data
+    const catalogue = await query('unfollow', [userID, artistID])
+    return res.json(catalogue).status(200)
+  })
 }

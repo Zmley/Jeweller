@@ -189,6 +189,7 @@ exports.up = pgm => {
     length: { type: 'int', notNull: false },
     height: { type: 'int', notNull: false },
     color: { type: 'text', notNull: true },
+    imageURL: { type: 'text', notNull: false },
     createdAt: {
       type: 'timestamp',
       notNull: true,

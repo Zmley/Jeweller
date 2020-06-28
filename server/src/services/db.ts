@@ -15,7 +15,7 @@ const procedures: { [key: string]: string } = {
                 WHERE "status" = '${productStatus.ENABLED}'
                 GROUP BY "Product"."id", "User"."id"
               `,
-  productSizeList: `select "id","productID","size","width","price"::float,"length","height","color" from "ProductSize"`,
+  productSizeList: `select "id","productID","size","width","price"::float,"length","height","color","imageURL" from "ProductSize"`,
   catalogue: `SELECT "name"
               FROM "Catalogue"
             `,
@@ -40,7 +40,9 @@ const procedures: { [key: string]: string } = {
                 LEFT JOIN "Tags"
                 ON "Product"."tag1" = "Tags"."id" OR "Product"."tag2" = "Tags"."id" OR "Product"."tag3" = "Tags"."id"
                 WHERE ("status" = '${productStatus.SOLD}' or  "status" = '${productStatus.ENABLED}') and "User"."id" = $1
-                GROUP BY "Product"."id" `
+                GROUP BY "Product"."id" `,
+  follow: `INSERT INTO "Follow" ( "userID", "artistID") VALUES ($1,$2);`,
+  unfollow: `DELETE from "Follow" where "userID" = $1 and "artistID" = $2`
 }
 const query = async (key: string, value: string[]) => {
   const pool = new Pool({
