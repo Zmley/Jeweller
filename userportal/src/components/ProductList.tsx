@@ -12,23 +12,27 @@ import { FavoriteBorder, Favorite } from '@material-ui/icons'
 import productSample from '../assets/img/productSample.png'
 import './productList.scss'
 import { Product } from 'models'
+import { useAuth0 } from '../react-auth0-spa'
+
 const ProductList: React.FC = (props: any, state: any) => {
+  const { getTokenSilently } = useAuth0()
   useEffect(() => {
     loadProducts()
   }, [])
   const [products, setProducts] = useState([])
   const [liked, setLiked] = useState(false)
   const loadProducts = async () => {
-    const result = await getProducts()
-    const { data } = result
-    setProducts(data)
+    const token = await getTokenSilently()
+    console.log(token)
+    const result = await getProducts(token)
+    setProducts(result)
   }
-  console.log(products)
   return (
     <div className='productList'>
       {products.length > 0 &&
         products.map((product: Product, index: number) => (
           <Link
+            key={product.id}
             to={{
               pathname: `/product/${product.name}`,
               state: { product: product }

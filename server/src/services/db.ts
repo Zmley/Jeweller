@@ -42,7 +42,14 @@ const procedures: { [key: string]: string } = {
                 WHERE ("status" = '${productStatus.SOLD}' or  "status" = '${productStatus.ENABLED}') and "User"."id" = $1
                 GROUP BY "Product"."id" `,
   follow: `INSERT INTO "Follow" ( "userID", "artistID") VALUES ($1,$2);`,
-  unfollow: `DELETE from "Follow" where "userID" = $1 and "artistID" = $2`
+  unfollow: `DELETE from "Follow" where "userID" = $1 and "artistID" = $2`,
+  getUnreadEvents: `select "Events".id, "Product".images, "artistID", "Product".id, "Artist".avatar, "Artist".username as "productID"
+              from "Follow"
+              inner join "User" on sub = $1 and "Follow"."userID" = "User".id
+              inner join "Product" on "artistID" = "Product"."userID"
+              inner join "Events" on "Product".id = "Events"."productID" and "User"."lastUpdatedAt" <= "Events"."createdAt"
+              inner join "User" as "Artist" on  "artistID" = "Artist".id`,
+  readall: `Update "User" set "lastUpdatedAt" = CURRENT_TIMESTAMP where sub = $1`
 }
 const query = async (key: string, value: string[]) => {
   const pool = new Pool({

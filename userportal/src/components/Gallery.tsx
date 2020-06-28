@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
+import React, { useState } from 'react'
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
 import { Product } from '../models/index'

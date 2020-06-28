@@ -3,11 +3,11 @@ import query from '../../services/db'
 const route = Router()
 import Logger from '../../loaders/logger' // TODO consider using DI
 import { getProducts } from '../../services/productList'
-
+import { getUserInfo } from '../middlewares'
 export default (app: Router) => {
   app.use('/users', route)
 
-  route.get('/me', (req: Request, res: Response) => {
+  route.get('/me', getUserInfo, (req: Request, res: Response) => {
     Logger.info('hi')
 
     return res
@@ -31,15 +31,29 @@ export default (app: Router) => {
     return res.json(catalogue).status(200)
   })
 
-  route.patch('/follow', async (req: Request, res: Response) => {
-    const { userID, artistID } = req.body.data
-    const catalogue = await query('follow', [userID, artistID])
+  route.patch('/follow', async (req: any, res: Response) => {
+    const { artistID } = req.body.data
+    const { sub } = req.user
+    const catalogue = await query('follow', [sub, artistID])
     return res.json(catalogue).status(200)
   })
 
-  route.patch('/unfollow', async (req: Request, res: Response) => {
-    const { userID, artistID } = req.body.data
-    const catalogue = await query('unfollow', [userID, artistID])
+  route.patch('/unfollow', async (req: any, res: Response) => {
+    const { artistID } = req.body.data
+    const { sub } = req.user
+    const catalogue = await query('unfollow', [sub, artistID])
+    return res.json(catalogue).status(200)
+  })
+
+  route.get('/unreadevents', async (req: any, res: Response) => {
+    const { sub } = req.user
+    const events = await query('getUnreadEvents', [sub])
+    return res.json(events).status(200)
+  })
+
+  route.patch('/readall', async (req: any, res: Response) => {
+    const { sub } = req.user
+    const catalogue = await query('readall', [sub])
     return res.json(catalogue).status(200)
   })
 }
