@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: url('../assets/font/open-sans-fontfacekit/web\ fonts/opensans_light_macroman/OpenSans-Light-webfont.woff')
+    format('woff'); /* Modern Browsers */
+}
+
 .App {
   font-family: Roboto;
   color: #000000;
@@ -33,5 +41,4 @@
 .tab {
   display: inline-block;
   width: 33.3%;
-  line-height: 49px;
 }

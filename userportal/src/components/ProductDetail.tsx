@@ -20,46 +20,36 @@ import { Product, User } from '../models'
 import './ProductDetail.scss'
 import StyleRadio from './Radio'
 
-type ProductProps = {
+interface ProductProps {
   product: Product
 }
 
-const ProductDetail: React.FC<ProductProps> = (
-  props: ProductProps,
-  state: any
-) => {
-  const [product, setProduct] = useState(props.product)
+const ProductDetail: React.FC<ProductProps> = ({ product }: ProductProps) => {
   useEffect(() => {
     const loadArtist = async () => {
-      const result = await getArtist(props.product.artistID)
+      const result = await getArtist(product.artistID)
       setArtist(result)
     }
+    loadArtist()
   }, [])
   const [artist, setArtist] = useState()
-  const [color, setColor] = useState(true)
-  const [size, setSize] = useState(true)
   const [selectedColor, setSelectedColor] = useState()
   const [selectedSize, setSelectedSize] = useState()
+  const [selectedPrice, setSelectedPrice] = useState()
   const [liked, setLiked] = useState(false)
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setProduct({
-      ...product,
-      [event.target.name]: event.target.value
-    })
-  }
   return (
     <div className='productCard'>
       <Paper elevation={0}>
         <Slider></Slider>
         <Grid container>
           <Grid item xs={12} container className='productInfo'>
-            <Grid xs={10} container direction='column'>
+            <Grid xs={10} item container direction='column'>
               <Grid item xs>
                 <Typography gutterBottom variant='subtitle1'>
                   {product.name}
                 </Typography>
-                <Typography variant='h4'>${product.price}</Typography>
+                <Typography variant='h4'>${selectedPrice}</Typography>
               </Grid>
               <Grid item xs>
                 <Typography variant='body2' color='textSecondary'>
@@ -125,46 +115,44 @@ const ProductDetail: React.FC<ProductProps> = (
             </>
           )}
           <Divider />
-          {size && (
+          {product.selections.length > 0 && product.selections[0].size && (
             <>
-              <Typography variant='body2' component='p' align='center'>
+              <Typography variant='h6' align='center'>
                 SIZE
               </Typography>
-              <ListItem>
-                <StyleRadio
-                  checked={selectedColor === size}
-                  onChange={e => setSelectedColor(e.target.value)}
-                />
-                <StyleRadio
-                  checked={selectedColor === size}
-                  onChange={e => setSelectedColor(e.target.value)}
-                />
-                <StyleRadio
-                  checked={selectedColor === size}
-                  onChange={e => setSelectedColor(e.target.value)}
-                />
+              <ListItem className='radioBox'>
+                {product.selections.map(selection => {
+                  return (
+                    <StyleRadio
+                      checked={selectedSize === selection.size}
+                      sizeValue={selection.size}
+                      onChange={(e: any) => {
+                        setSelectedSize(e.target.value)
+                        setSelectedPrice(selection.price)
+                      }}
+                    />
+                  )
+                })}
               </ListItem>
               <Divider />
             </>
           )}
-          {color && (
+          {product.selections.length > 0 && product.selections[0].color && (
             <>
-              <Typography variant='body2' component='p' align='center'>
+              <Typography variant='h6' align='center'>
                 COLOR
               </Typography>
-              <ListItem>
-                <StyleRadio
-                  checked={selectedColor === color}
-                  onChange={e => setSelectedColor(e.target.value)}
-                />
-                <StyleRadio
-                  checked={selectedColor === color}
-                  onChange={e => setSelectedColor(e.target.value)}
-                />
-                <StyleRadio
-                  checked={selectedColor === color}
-                  onChange={e => setSelectedColor(e.target.value)}
-                />
+              <ListItem className='radioBox'>
+                {product.selections.map(selection => (
+                  <StyleRadio
+                    checked={selectedColor === selection.color}
+                    colorValue={selection.color}
+                    onChange={(e: any) => {
+                      setSelectedColor(e.target.value)
+                      setSelectedPrice(selection.price)
+                    }}
+                  />
+                ))}
               </ListItem>
               <Divider />
             </>

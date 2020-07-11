@@ -23,13 +23,16 @@
     "watch-debug": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\""
   },
   "dependencies": {
+    "@types/jwt-decode": "^2.2.1",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.1.0",
     "errorhandler": "^1.5.1",
     "express": "^4.17.1",
+    "express-jwt": "^5.3.3",
     "express-session": "^1.16.2",
     "express-validator": "^6.2.0",
+    "jwks-rsa": "^1.8.0",
     "lodash": "^4.17.15",
     "module-alias": "^2.2.2",
     "node-pg-migrate": "^4.2.2",

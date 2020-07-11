@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import './TabBar.scss'
 const TabBar: React.FC = (props: any, state: any) => {
   return (
     <div className='tabbar'>
