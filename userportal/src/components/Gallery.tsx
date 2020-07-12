@@ -5,35 +5,18 @@ import { Product } from '../models/index'
 import './Gallery.scss'
 import sample from '../assets/img/productSample.png'
 
-export default function TitlebarGridList() {
-  const [products, setProducts] = useState<Product[]>([])
-
+interface Props {
+  products: any
+}
+export default function TitlebarGridList({ products }: Props) {
   return (
     <div className='galleryBox'>
       <GridList cellHeight={116} className='gridList' cols={3}>
-        {products.map(product => (
+        {products.map((product: any) => (
           <GridListTile key={product.images[0]}>
             <img src={product.images[0]} alt={product.name} />
           </GridListTile>
         ))}
-        <GridListTile key={sample}>
-          <img src={sample} />
-        </GridListTile>
-        <GridListTile key={sample}>
-          <img src={sample} />
-        </GridListTile>
-        <GridListTile key={sample}>
-          <img src={sample} />
-        </GridListTile>
-        <GridListTile key={sample}>
-          <img src={sample} />
-        </GridListTile>
-        <GridListTile key={sample}>
-          <img src={sample} />
-        </GridListTile>
-        <GridListTile key={sample}>
-          <img src={sample} />
-        </GridListTile>
       </GridList>
     </div>
   )
