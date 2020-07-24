@@ -15,6 +15,7 @@ const procedures: { [key: string]: string } = {
                 WHERE "status" = '${productStatus.ENABLED}'
                 GROUP BY "Product"."id", "User"."id"
               `,
+  offShelfProduct: `Update "Product" set status = 'SOLD' where id = $1 and "userID" = $2`,
   productSizeList: `select "id","productID","size","width","price"::float,"length","height","color","imageURL" from "ProductSize"`,
   catalogue: `SELECT "name"
               FROM "Catalogue"
@@ -49,7 +50,8 @@ const procedures: { [key: string]: string } = {
               inner join "Product" on "artistID" = "Product"."userID"
               inner join "Events" on "Product".id = "Events"."productID" and "User"."lastUpdatedAt" <= "Events"."createdAt"
               inner join "User" as "Artist" on  "artistID" = "Artist".id`,
-  readall: `Update "User" set "lastUpdatedAt" = CURRENT_TIMESTAMP where sub = $1`
+  readall: `Update "User" set "lastUpdatedAt" = CURRENT_TIMESTAMP where sub = $1`,
+  addToCart: `INSERT INTO "ShoppingCart ("id", "productID", "amount") VALUE ($1, $2, $3)"`
 }
 const query = async (key: string, value: string[]) => {
   const pool = new Pool({

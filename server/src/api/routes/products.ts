@@ -30,4 +30,22 @@ export default (app: Router) => {
       res.json('Invalid productID').status(200)
     }
   })
+  route.get('/search', async (req: Request, res: Response) => {
+    const { productID } = req.body
+    try {
+      const likeProduct = await query('dislikeProduct', [productID])
+      res.json(likeProduct).status(200)
+    } catch (error) {
+      res.json('Invalid productID').status(200)
+    }
+  })
+  route.put('/offShelf', async (req: Request, res: Response) => {
+    const { productID } = req.body
+    try {
+      const likeProduct = await query('offShelfProduct', [productID])
+      res.json(likeProduct).status(200)
+    } catch (error) {
+      res.json('Invalid productID').status(200)
+    }
+  })
 }
