@@ -33,6 +33,7 @@
     "express-session": "^1.16.2",
     "express-validator": "^6.2.0",
     "jwks-rsa": "^1.8.0",
+    "jwt-decode": "^2.2.0",
     "lodash": "^4.17.15",
     "module-alias": "^2.2.2",
     "node-pg-migrate": "^4.2.2",

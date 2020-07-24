@@ -5,6 +5,7 @@ import { useAuth0 } from '../react-auth0-spa'
 
 const Home: React.FC = (props: any, state: any) => {
   const { isAuthenticated } = useAuth0()
+  console.log(isAuthenticated)
   return (
     <>
       <div>

@@ -2,7 +2,8 @@ import { Router, Request, Response } from 'express'
 const route = Router()
 import query from '../../services/db'
 import { getProducts } from '../../services/productList'
-
+import { jwtCheck } from '../middlewares'
+import { decode } from '../../services/jwt'
 export default (app: Router) => {
   app.use('/products', route)
 
@@ -12,7 +13,8 @@ export default (app: Router) => {
 
     res.json(products).status(200)
   })
-  route.put('/like', async (req: Request, res: Response) => {
+  route.put('/like', jwtCheck, async (req: Request, res: Response) => {
+    console.log(decode(req))
     const { productID } = req.body
     try {
       const likeProduct = await query('likeProduct', [productID])
@@ -21,7 +23,7 @@ export default (app: Router) => {
       res.json('Invalid productID').status(200)
     }
   })
-  route.put('/dislike', async (req: Request, res: Response) => {
+  route.put('/dislike', jwtCheck, async (req: Request, res: Response) => {
     const { productID } = req.body
     try {
       const likeProduct = await query('dislikeProduct', [productID])

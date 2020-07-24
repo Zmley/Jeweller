@@ -16,6 +16,7 @@ import { useAuth0 } from '../react-auth0-spa'
 
 const ProductList: React.FC = (props: any, state: any) => {
   const { getTokenSilently } = useAuth0()
+  console.log('Test')
   useEffect(() => {
     loadProducts()
   }, [])
@@ -23,6 +24,7 @@ const ProductList: React.FC = (props: any, state: any) => {
   const [liked, setLiked] = useState(false)
   const loadProducts = async () => {
     const token = await getTokenSilently()
+    console.log(token)
     const result = await getProducts(token)
     setProducts(result)
   }
