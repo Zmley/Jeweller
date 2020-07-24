@@ -2,10 +2,30 @@
 # yarn lockfile v1
 
 
+"@auth0/auth0-react@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npm.taobao.org/@auth0/auth0-react/download/@auth0/auth0-react-1.0.0.tgz#3eeced9557d54d4092032ecc071cd74052d09da7"
+  integrity sha1-PuztlVfVTUCSAy7MBxzXQFLQnac=
+  dependencies:
+    "@auth0/auth0-spa-js" "^1.9.0"
+
 "@auth0/auth0-spa-js@^1.8.2":
   version "1.8.2"
   resolved "https://registry.npm.taobao.org/@auth0/auth0-spa-js/download/@auth0/auth0-spa-js-1.8.2.tgz#fdd5b66c58a69ff0838c75ce3d4794ab15fd9126"
   integrity sha1-/dW2bFimn/CDjHXOPUeUqxX9kSY=
+  dependencies:
+    abortcontroller-polyfill "^1.4.0"
+    browser-tabs-lock "^1.2.8"
+    core-js "^3.6.4"
+    es-cookie "^1.3.2"
+    fast-text-encoding "^1.0.1"
+    promise-polyfill "^8.1.3"
+    unfetch "^4.1.0"
+
+"@auth0/auth0-spa-js@^1.9.0":
+  version "1.10.0"
+  resolved "https://registry.npm.taobao.org/@auth0/auth0-spa-js/download/@auth0/auth0-spa-js-1.10.0.tgz#1be6536109a7c12255ceecae51b2a8fe82e9535b"
+  integrity sha1-G+ZTYQmnwSJVzuyuUbKo/oLpU1s=
   dependencies:
     abortcontroller-polyfill "^1.4.0"
     browser-tabs-lock "^1.2.8"

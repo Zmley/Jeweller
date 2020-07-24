@@ -1,8 +1,6 @@
 import axios from 'axios'
 
-const localURL = 'http://localhost:8000/api'
-const devURL = 'http://towntime.ca:3000'
-axios.defaults.baseURL = localURL
+axios.defaults.baseURL = process.env.REACT_APP_URL
 
 export const getProducts = async (token: any) => {
   axios.defaults.headers = { Authorization: `Bearer ${token}` }
@@ -17,3 +15,8 @@ export const createPayment = async () => (await axios.post('/payment')).data
 
 export const getCatalogues = async () =>
   (await axios.get('users/catalogue')).data
+
+export const setLike = async (isLike: boolean) =>
+  isLike
+    ? (await axios.get('products/like')).data
+    : (await axios.get('products/dislike')).data

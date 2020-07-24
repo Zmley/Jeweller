@@ -15,7 +15,7 @@ import {
   ListItemAvatar,
   Avatar
 } from '@material-ui/core'
-import { getArtist } from '../api/index'
+import { getArtist, setLike } from '../api/index'
 import { Product, User } from '../models'
 import './ProductDetail.scss'
 import StyleRadio from './Radio'
@@ -33,11 +33,41 @@ const ProductDetail: React.FC<ProductProps> = ({ product }: ProductProps) => {
     loadArtist()
   }, [])
   const [artist, setArtist] = useState()
-  const [selectedColor, setSelectedColor] = useState()
-  const [selectedSize, setSelectedSize] = useState()
-  const [selectedPrice, setSelectedPrice] = useState()
+  const [selectedColor, setSelectedColor] = useState(
+    product.selections[0] && product.selections[0].color
+  )
+  const [selectedSize, setSelectedSize] = useState(
+    product.selections[0] && product.selections[0].size
+  )
+  const [selectedPrice, setSelectedPrice] = useState(
+    product.selections[0] ? product.selections[0].price : 'null'
+  )
   const [liked, setLiked] = useState(false)
-
+  const handleSelectPriceByColor = (e: any, index: number) => {
+    setSelectedColor(e.target.value)
+    const selection = product.selections[index]
+    if (selection.color === e.target.value && selection.size === selectedSize) {
+      setSelectedPrice(selection.price)
+    } else {
+      setSelectedPrice('null')
+    }
+  }
+  const handleSelectPriceBySize = (e: any, index: number) => {
+    setSelectedSize(e.target.value)
+    const selection = product.selections[index]
+    if (
+      selection.color === selectedColor &&
+      selection.size === e.target.value
+    ) {
+      setSelectedPrice(selection.price)
+    } else {
+      setSelectedPrice('null')
+    }
+  }
+  const handleLike = (isLike: boolean) => {
+    setLike(isLike)
+    setLiked(isLike)
+  }
   return (
     <div className='productCard'>
       <Paper elevation={0}>
@@ -62,12 +92,15 @@ const ProductDetail: React.FC<ProductProps> = ({ product }: ProductProps) => {
                 {liked ? (
                   <IconButton
                     className='button'
-                    onClick={() => setLiked(false)}
+                    onClick={() => handleLike(false)}
                   >
                     <Favorite className='like' />
                   </IconButton>
                 ) : (
-                  <IconButton className='button' onClick={() => setLiked(true)}>
+                  <IconButton
+                    className='button'
+                    onClick={() => handleLike(true)}
+                  >
                     <FavoriteBorder className='like' />
                   </IconButton>
                 )}
@@ -121,14 +154,14 @@ const ProductDetail: React.FC<ProductProps> = ({ product }: ProductProps) => {
                 SIZE
               </Typography>
               <ListItem className='radioBox'>
-                {product.selections.map(selection => {
+                {product.selections.map((selection, index) => {
                   return (
                     <StyleRadio
+                      key={selection.size}
                       checked={selectedSize === selection.size}
                       sizeValue={selection.size}
                       onChange={(e: any) => {
-                        setSelectedSize(e.target.value)
-                        setSelectedPrice(selection.price)
+                        handleSelectPriceBySize(e, index)
                       }}
                     />
                   )
@@ -143,13 +176,13 @@ const ProductDetail: React.FC<ProductProps> = ({ product }: ProductProps) => {
                 COLOR
               </Typography>
               <ListItem className='radioBox'>
-                {product.selections.map(selection => (
+                {product.selections.map((selection, index) => (
                   <StyleRadio
+                    key={selection.color}
                     checked={selectedColor === selection.color}
                     colorValue={selection.color}
                     onChange={(e: any) => {
-                      setSelectedColor(e.target.value)
-                      setSelectedPrice(selection.price)
+                      handleSelectPriceByColor(e, index)
                     }}
                   />
                 ))}
