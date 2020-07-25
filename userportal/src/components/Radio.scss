@@ -1,0 +1,21 @@
+.radio {
+  width: 30px;
+  height: 30px;
+  background-color: #fff;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.radioChecked {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+.radioChecked.size {
+  background-color: #000;
+  color: #fff;
+}

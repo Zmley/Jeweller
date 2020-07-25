@@ -1,5 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import './TabBar.scss'
+import logo from '../assets/img/LOGO@2x.png'
+
 const TabBar: React.FC = (props: any, state: any) => {
   return (
     <div className='tabbar'>
@@ -7,7 +10,7 @@ const TabBar: React.FC = (props: any, state: any) => {
         <div className='tab'>Followed</div>
       </Link>
       <Link to='/'>
-        <div className='tab'>Logo</div>
+        <img className='logo' src={logo}></img>
       </Link>
       <Link to='/favourite'>
         <div className='tab'>Favourite</div>

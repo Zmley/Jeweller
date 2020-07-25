@@ -51,7 +51,26 @@ const procedures: { [key: string]: string } = {
               inner join "Events" on "Product".id = "Events"."productID" and "User"."lastUpdatedAt" <= "Events"."createdAt"
               inner join "User" as "Artist" on  "artistID" = "Artist".id`,
   readall: `Update "User" set "lastUpdatedAt" = CURRENT_TIMESTAMP where sub = $1`,
-  addToCart: `INSERT INTO "ShoppingCart ("id", "productID", "amount") VALUE ($1, $2, $3)"`
+  addToCart: `INSERT INTO "ShoppingCart" ("id", "productID", "amount", "userID") VALUES ($1, $2, $3, $4)`,
+  removeFromCart: `Delete from "ShoppingCart" using "User" where "ShoppingCart".id = $1 and "User".sub = $2 and "User".sub = "ShoppingCart"."userID"`,
+  updateCart: `Update "ShoppingCart" set amount = $3 from "User" where "ShoppingCart".id = $1 and "User".sub = $2 and "User".sub = "ShoppingCart"."userID"`,
+  addToFavourite: `INSERT INTO "Favourite" ("id", "productID", "userID") VALUES ($1, $2, $3)`,
+  removeFromFavourite: `Delete from "Favourite" using "User" where "Favourite"."productID" = $1 and "User".sub = $2 and "User".sub = "Favourite"."userID"`,
+  getFavourite: `Select "Product"."id", "name", "likeCount", "images", "description",
+                concat('["',
+                (array_agg("Tags"."mainTag"))[1] ,'-',(array_agg("Tags"."subTag"))[1],'","',
+                (array_agg("Tags"."mainTag"))[2] ,'-',(array_agg("Tags"."subTag"))[2],'","',
+                (array_agg("Tags"."mainTag"))[3] ,'-',(array_agg("Tags"."subTag"))[3]
+                ,'"]') as "tags"
+                from "Favourite", "Product", "Tags"
+                where
+                "Favourite"."userID" = $1
+                and
+                "Product".id = "Favourite"."productID"
+                and
+                ("Product"."tag1" = "Tags"."id" OR "Product"."tag2" = "Tags"."id" OR "Product"."tag3" = "Tags"."id")
+                GROUP BY "Product"."id"
+                `
 }
 const query = async (key: string, value: string[]) => {
   const pool = new Pool({
@@ -63,6 +82,7 @@ const query = async (key: string, value: string[]) => {
   })
 
   const query = procedures[key]
+
   const result = await pool.query(query, value)
   return { count: result.rowCount, data: result.rows }
 }

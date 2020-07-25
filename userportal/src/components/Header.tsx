@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import './Header.scss'
 import cart from '../assets/img/Cart.png'
-import search from '../assets/img/search.png'
 import Chip from '@material-ui/core/Chip'
-import { TextField, GridList } from '@material-ui/core'
+import {
+  TextField,
+  GridList,
+  InputAdornment,
+  IconButton
+} from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
 import Slider from './Slider'
 import { getCatalogues } from '../api'
-import { CodeSharp } from '@material-ui/icons'
+import { AccountCircle, Search } from '@material-ui/icons'
+import { useAuth0 } from '../react-auth0-spa'
 
 const Header: React.FC = (props: any, state: any) => {
   const [catalogues, setCatalogues] = useState([])
+  const { isAuthenticated, loginWithRedirect, logout } = useAuth0()
   useEffect(() => {
     loadProducts()
   }, [])
@@ -26,12 +32,25 @@ const Header: React.FC = (props: any, state: any) => {
     <div className='header'>
       <Grid spacing={1} container alignItems='flex-end' className='socialBar'>
         <Grid item xs={1}>
-          <img src={search} className='search'></img>
+          <IconButton
+            aria-label='account'
+            size='small'
+            onClick={() => (isAuthenticated ? logout() : loginWithRedirect())}
+          >
+            <AccountCircle fontSize='small' />
+          </IconButton>
         </Grid>
         <Grid item className='inputField' xs={10}>
           <TextField
             id='input-with-icon-grid'
             variant='outlined'
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position='start'>
+                  <Search className='search' fontSize='small' />
+                </InputAdornment>
+              )
+            }}
             fullWidth
             size='small'
             className='input'

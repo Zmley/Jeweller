@@ -11,7 +11,8 @@ exports.up = pgm => {
       default: pgm.func('uuid_generate_v4()')
     },
     productID: { type: 'uuid', notNull: true, primaryKey: true },
-    amount: { type: Number, notNull: true },
+    amount: { type: 'int', notNull: true },
+    userID: { type: 'text', notNull: true },
     createdAt: {
       type: 'timestamp',
       notNull: true,

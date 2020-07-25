@@ -5,6 +5,7 @@ export type Product = {
   id: string
   images: string[]
   lastUpdatedAt: string
+  selections: any[]
   likeCount: number
   name: string
   price: number
