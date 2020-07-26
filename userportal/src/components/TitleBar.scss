@@ -1,17 +1,27 @@
 .titlebar {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  position: fixed;
+  background-color: #fff;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
   .back {
-    margin: 10px 14px;
+    padding: 12px 16px;
+    margin-top: 2px;
   }
   .title {
-    font-size: 20px;
+    font-size: 16px;
+    font-family: 'PingFang SC';
+    flex-grow: 1;
   }
   .cart {
-    width: 15px;
-    height: 14px;
+    width: 17px;
+    height: 15px;
     object-fit: fill;
-    margin: 10px 14px;
+    padding: 12px 18px;
+    margin-top: 2px;
   }
 }

@@ -1,19 +1,21 @@
 import { Router, Request, Response } from 'express'
 const route = Router()
 
-import query from '../../services/db'
 import { makePayment } from '../../services/payment'
-
+import { jwtCheck } from '../middlewares'
 export default (app: Router) => {
   app.use('/payment', route)
 
-  route.post('/', async (req: Request, res: Response) => {
+  route.post('/', jwtCheck, async (req: Request, res: Response) => {
     const result = await makePayment()
     res.json(result)
   })
 
-  route.post('/confirmPayment', async (req: Request, res: Response) => {
-    console.log(req)
-    res.json('success')
-  })
+  route.post(
+    '/confirmPayment',
+    jwtCheck,
+    async (req: Request, res: Response) => {
+      res.json('success')
+    }
+  )
 }

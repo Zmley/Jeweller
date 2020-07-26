@@ -12,23 +12,45 @@ import { FavoriteBorder, Favorite } from '@material-ui/icons'
 import productSample from '../assets/img/productSample.png'
 import './productList.scss'
 import { Product } from 'models'
+import { useAuth0 } from '../react-auth0-spa'
+
 const ProductList: React.FC = (props: any, state: any) => {
+  const { getTokenSilently } = useAuth0()
   useEffect(() => {
     loadProducts()
   }, [])
   const [products, setProducts] = useState([])
   const [liked, setLiked] = useState(false)
   const loadProducts = async () => {
-    const result = await getProducts()
-    const { data } = result
-    setProducts(data)
+    const token = await getTokenSilently()
+    const result = await getProducts(token)
+    setProducts(result)
   }
-  console.log(products)
+  const handleLikeLocal = (selectedProduct: Product, like: boolean) => {
+    const localFavoriteString = localStorage.getItem('favorites')
+    let localFavorite
+    if (localFavoriteString) {
+      localFavorite = JSON.parse(localFavoriteString)
+    } else {
+      localFavorite = []
+    }
+    if (like) {
+      localFavorite.push(selectedProduct)
+      localStorage.setItem('favorites', JSON.stringify(localFavorite))
+    } else {
+      const removeUnlike = localFavorite.filter(
+        (product: Product) => product.id !== selectedProduct.id
+      )
+      localStorage.setItem('favorites', JSON.stringify(removeUnlike))
+    }
+    setLiked(like)
+  }
   return (
     <div className='productList'>
       {products.length > 0 &&
         products.map((product: Product, index: number) => (
           <Link
+            key={product.id}
             to={{
               pathname: `/product/${product.name}`,
               state: { product: product }
@@ -69,14 +91,14 @@ const ProductList: React.FC = (props: any, state: any) => {
                   {liked ? (
                     <IconButton
                       className='button'
-                      onClick={() => setLiked(false)}
+                      onClick={() => handleLikeLocal(product, false)}
                     >
                       <Favorite className='like' />
                     </IconButton>
                   ) : (
                     <IconButton
                       className='button'
-                      onClick={() => setLiked(true)}
+                      onClick={() => handleLikeLocal(product, true)}
                     >
                       <FavoriteBorder className='like' />
                     </IconButton>

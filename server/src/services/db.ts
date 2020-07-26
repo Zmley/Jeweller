@@ -15,7 +15,7 @@ const procedures: { [key: string]: string } = {
                 WHERE "status" = '${productStatus.ENABLED}'
                 GROUP BY "Product"."id", "User"."id"
               `,
-  productSizeList: `select "id","productID","size","width","price"::float,"length","height","color" from "ProductSize"`,
+  productSizeList: `select "id","productID","size","width","price"::float,"length","height","color","imageURL" from "ProductSize"`,
   catalogue: `SELECT "name"
               FROM "Catalogue"
             `,
@@ -40,7 +40,16 @@ const procedures: { [key: string]: string } = {
                 LEFT JOIN "Tags"
                 ON "Product"."tag1" = "Tags"."id" OR "Product"."tag2" = "Tags"."id" OR "Product"."tag3" = "Tags"."id"
                 WHERE ("status" = '${productStatus.SOLD}' or  "status" = '${productStatus.ENABLED}') and "User"."id" = $1
-                GROUP BY "Product"."id" `
+                GROUP BY "Product"."id" `,
+  follow: `INSERT INTO "Follow" ( "userID", "artistID") VALUES ($1,$2);`,
+  unfollow: `DELETE from "Follow" where "userID" = $1 and "artistID" = $2`,
+  getUnreadEvents: `select "Events".id, "Product".images, "artistID", "Product".id, "Artist".avatar, "Artist".username as "productID"
+              from "Follow"
+              inner join "User" on sub = $1 and "Follow"."userID" = "User".id
+              inner join "Product" on "artistID" = "Product"."userID"
+              inner join "Events" on "Product".id = "Events"."productID" and "User"."lastUpdatedAt" <= "Events"."createdAt"
+              inner join "User" as "Artist" on  "artistID" = "Artist".id`,
+  readall: `Update "User" set "lastUpdatedAt" = CURRENT_TIMESTAMP where sub = $1`
 }
 const query = async (key: string, value: string[]) => {
   const pool = new Pool({

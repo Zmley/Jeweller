@@ -1,20 +1,13 @@
-.productInfo {
-  padding: 15px;
-}
-.btnArea {
-  padding: 20px;
-}
-.radioBox {
-  width: 100%;
-  .formLabel {
-    text-align: center;
-    margin: 10px;
-    color: #000;
-    font-weight: 600;
+.productCard {
+  .productInfo {
+    padding: 15px;
   }
-  .radioGroup {
+  .btnArea {
+    padding: 20px;
+  }
+  .radioBox {
+    padding: 10px 20px;
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
   }
 }

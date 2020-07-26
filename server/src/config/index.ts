@@ -1,22 +1,8 @@
 import dotenv from 'dotenv'
 import fs from 'fs'
-import jwt from 'express-jwt'
-import jwks from 'jwks-rsa'
 
 // Set the NODE_ENV to 'dev' by default
 process.env.NODE_ENV = process.env.NODE_ENV || 'dev'
-
-const jwtCheck = jwt({
-  secret: jwks.expressJwtSecret({
-    cache: true,
-    rateLimit: true,
-    jwksRequestsPerMinute: 5,
-    jwksUri: 'https://dev-r5ac2oa6.auth0.com/.well-known/jwks.json'
-  }),
-  audience: 'town-dev',
-  issuer: 'https://dev-r5ac2oa6.auth0.com/',
-  algorithms: ['RS256']
-})
 
 const envFound = dotenv.config()
 if (!envFound) {
@@ -55,7 +41,5 @@ export default {
     sessionSecret: process.env['SESSION_SECRET']
   },
 
-  dev: process.env.NODE_ENV === 'dev',
-
-  jwtCheck: jwtCheck
+  dev: process.env.NODE_ENV === 'dev'
 }

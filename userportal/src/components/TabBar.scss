@@ -1,0 +1,20 @@
+.tabbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  a {
+    text-decoration: none;
+    .tab {
+      font-family: 'Open Sans';
+      font-size: 20px;
+      color: #9b9b9b;
+      font-weight: 300;
+    }
+    .logo {
+      width: 28px;
+      height: 26px;
+      padding: 2px 24px;
+      margin: 4px 28px 0 28px;
+    }
+  }
+}
