@@ -4,7 +4,7 @@ import RelatedProducts from '../components/RelatedProducts'
 
 const Product: React.FC = (props: any, state: any) => {
   return (
-    <div>
+    <div className='main'>
       <ProductDetail product={props.location.state.product} />
       <RelatedProducts />
     </div>

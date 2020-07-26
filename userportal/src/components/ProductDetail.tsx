@@ -16,7 +16,7 @@ import {
   Avatar
 } from '@material-ui/core'
 import { getArtist, setLike } from '../api/index'
-import { Product, User } from '../models'
+import { Product } from '../models'
 import './ProductDetail.scss'
 import StyleRadio from './Radio'
 

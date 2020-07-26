@@ -16,7 +16,6 @@ import { useAuth0 } from '../react-auth0-spa'
 
 const ProductList: React.FC = (props: any, state: any) => {
   const { getTokenSilently } = useAuth0()
-  console.log('Test')
   useEffect(() => {
     loadProducts()
   }, [])
@@ -24,9 +23,27 @@ const ProductList: React.FC = (props: any, state: any) => {
   const [liked, setLiked] = useState(false)
   const loadProducts = async () => {
     const token = await getTokenSilently()
-    console.log(token)
     const result = await getProducts(token)
     setProducts(result)
+  }
+  const handleLikeLocal = (selectedProduct: Product, like: boolean) => {
+    const localFavoriteString = localStorage.getItem('favorites')
+    let localFavorite
+    if (localFavoriteString) {
+      localFavorite = JSON.parse(localFavoriteString)
+    } else {
+      localFavorite = []
+    }
+    if (like) {
+      localFavorite.push(selectedProduct)
+      localStorage.setItem('favorites', JSON.stringify(localFavorite))
+    } else {
+      const removeUnlike = localFavorite.filter(
+        (product: Product) => product.id !== selectedProduct.id
+      )
+      localStorage.setItem('favorites', JSON.stringify(removeUnlike))
+    }
+    setLiked(like)
   }
   return (
     <div className='productList'>
@@ -74,14 +91,14 @@ const ProductList: React.FC = (props: any, state: any) => {
                   {liked ? (
                     <IconButton
                       className='button'
-                      onClick={() => setLiked(false)}
+                      onClick={() => handleLikeLocal(product, false)}
                     >
                       <Favorite className='like' />
                     </IconButton>
                   ) : (
                     <IconButton
                       className='button'
-                      onClick={() => setLiked(true)}
+                      onClick={() => handleLikeLocal(product, true)}
                     >
                       <FavoriteBorder className='like' />
                     </IconButton>
