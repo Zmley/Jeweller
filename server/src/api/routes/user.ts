@@ -4,11 +4,11 @@ const route = Router()
 import Logger from '../../loaders/logger' // TODO consider using DI
 import { getProducts } from '../../services/productList'
 import { getUserInfo } from '../middlewares'
-
+import { decode } from '../../services/jwt'
 import { jwtCheck } from '../middlewares'
 export default (app: Router) => {
   app.use('/users', route)
-  // app.use(config.jwtCheck)
+
   route.get('/me', getUserInfo, (req: Request, res: Response) => {
     Logger.info('hi')
 
@@ -26,6 +26,14 @@ export default (app: Router) => {
     const products = await getProducts(productList.data)
     artist.data[0].products = products
     return res.json(artist).status(200)
+  })
+  route.post('/artistInfo', jwtCheck, async (req: Request, res: Response) => {
+    const { id, description, backgroundImageURL } = req.body
+    const userAccount: any = decode(req)
+    console.log(description)
+    console.log(backgroundImageURL)
+    const result = await query('artistInfo', [id])
+    return res.json(result).status(200)
   })
 
   route.get('/catalogue', async (req: Request, res: Response) => {

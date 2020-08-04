@@ -107,4 +107,20 @@ export default (app: Router) => {
       res.json('Invalid productID').status(200)
     }
   })
+  route.post(
+    '/uploadProduct',
+    jwtCheck,
+    async (req: Request, res: Response) => {
+      const { options, productName, productDescription, tags } = req.body
+      const userAccount: any = decode(req)
+      const uuid = generate()
+      try {
+        const result = await query('createProduct', [])
+        res.json(result).status(200)
+      } catch (error) {
+        console.log(error)
+        res.json('Invalid productID').status(200)
+      }
+    }
+  )
 }

@@ -70,7 +70,8 @@ const procedures: { [key: string]: string } = {
                 and
                 ("Product"."tag1" = "Tags"."id" OR "Product"."tag2" = "Tags"."id" OR "Product"."tag3" = "Tags"."id")
                 GROUP BY "Product"."id"
-                `
+                `,
+  artistInfo: `INSERT INTO "Artist" ("id", "description", "backgroundImageURL") VALUES ($1, $2, $3)`
 }
 const query = async (key: string, value: string[]) => {
   const pool = new Pool({
