@@ -1,7 +1,6 @@
-$cardSize: 44vw;
+$cardSize: 46vw;
 .productList {
   padding-bottom: 49px;
-  padding-top: 24px;
   .image {
     width: $cardSize;
     height: $cardSize;
@@ -40,14 +39,14 @@ $cardSize: 44vw;
     width: $cardSize;
     display: inline-block;
     margin-bottom: 15px;
-    margin-left: 3.6vw;
+    margin-left: 2.66vw;
     box-shadow: none;
   }
   .productCardRight {
     width: $cardSize;
     display: inline-block;
     margin-bottom: 15px;
-    margin-left: 3.6vw;
+    margin-left: 2.66vw;
     box-shadow: none;
   }
 }

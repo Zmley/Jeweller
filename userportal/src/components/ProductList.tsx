@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { getProducts, setHeaderToken } from '../api'
+import { getProducts } from '../api'
 import { Link } from 'react-router-dom'
 import Card from '@material-ui/core/Card'
 import {
@@ -15,18 +15,15 @@ import { Product } from 'models'
 import { useAuth0 } from '../react-auth0-spa'
 
 const ProductList: React.FC = (props: any, state: any) => {
-  const { getTokenSilently, isAuthenticated } = useAuth0()
+  const { getTokenSilently } = useAuth0()
   useEffect(() => {
     loadProducts()
   }, [])
   const [products, setProducts] = useState([])
   const [liked, setLiked] = useState(false)
   const loadProducts = async () => {
-    if (isAuthenticated) {
-      const token = await getTokenSilently()
-      setHeaderToken(token)
-    }
-    const result = await getProducts()
+    const token = await getTokenSilently()
+    const result = await getProducts(token)
     setProducts(result)
   }
   const handleLikeLocal = (selectedProduct: Product, like: boolean) => {
