@@ -7,6 +7,7 @@ import Home from './Home'
 import Favourite from './Favourite'
 import TitleBar from 'components/TitleBar'
 import Product from './Product'
+import Category from './Category'
 import { useHistory } from 'react-router-dom'
 
 const App: React.FC = (props: any, state: any) => {
@@ -16,6 +17,7 @@ const App: React.FC = (props: any, state: any) => {
       <TitleBar />
       <Switch>
         <Route path='/product/:name' component={Product}></Route>
+        <Route path='/category' component={Category}></Route>
         <Route path='/followed'>
           <Followed />
         </Route>

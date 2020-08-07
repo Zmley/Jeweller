@@ -29,6 +29,7 @@ const ProductDetail: React.FC<ProductProps> = ({ product }: ProductProps) => {
     const loadArtist = async () => {
       const result = await getArtist(product.artistID)
       setArtist(result)
+      console.log(result)
     }
     loadArtist()
   }, [])

@@ -13,8 +13,10 @@ import Slider from './Slider'
 import { getCatalogues } from '../api'
 import { AccountCircle, Search } from '@material-ui/icons'
 import { useAuth0 } from '../react-auth0-spa'
+import { useHistory } from 'react-router-dom'
 
 const Header: React.FC = (props: any, state: any) => {
+  let history = useHistory()
   const [catalogues, setCatalogues] = useState([])
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0()
   useEffect(() => {
@@ -25,8 +27,11 @@ const Header: React.FC = (props: any, state: any) => {
     const { data } = result
     setCatalogues(data)
   }
-  const handleClick = () => {
-    console.info('You clicked the Chip.')
+  const handleClick = (catalogues: any, index: number) => {
+    history.push({
+      pathname: '/category',
+      state: { catalogues: catalogues, selected: index }
+    })
   }
   return (
     <div className='header'>
@@ -67,7 +72,7 @@ const Header: React.FC = (props: any, state: any) => {
                   key={index}
                   size='small'
                   label={catalogue.name}
-                  onClick={handleClick}
+                  onClick={() => handleClick(catalogues, index)}
                   className='chip'
                   clickable
                 />
