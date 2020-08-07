@@ -17,8 +17,11 @@ const procedures: { [key: string]: string } = {
               `,
   offShelfProduct: `Update "Product" set status = 'SOLD' where id = $1 and "userID" = $2`,
   productSizeList: `select "id","productID","size","width","price"::float,"length","height","color","imageURL" from "ProductSize"`,
-  catalogue: `SELECT "name"
+  catalogue: `SELECT "Catalogue".id, "Catalogue".name, json_agg(row(cata.name,cata.id)::category)
               FROM "Catalogue"
+              left join "Catalogue" as cata on cata.father = "Catalogue".name
+              where "Catalogue".level = 1
+              group by "Catalogue".name, "Catalogue".id
             `,
   newAddress: `INSERT INTO "Address" ( "name", "address", "postcode", "phone") VALUES
               ($1,$2,$3,$4);`,
