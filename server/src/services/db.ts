@@ -15,9 +15,13 @@ const procedures: { [key: string]: string } = {
                 WHERE "status" = '${productStatus.ENABLED}'
                 GROUP BY "Product"."id", "User"."id"
               `,
+  offShelfProduct: `Update "Product" set status = 'SOLD' where id = $1 and "userID" = $2`,
   productSizeList: `select "id","productID","size","width","price"::float,"length","height","color","imageURL" from "ProductSize"`,
-  catalogue: `SELECT "name"
+  catalogue: `SELECT "Catalogue".id, "Catalogue".name, json_agg(row(cata.name,cata.id)::category)
               FROM "Catalogue"
+              left join "Catalogue" as cata on cata.father = "Catalogue".name
+              where "Catalogue".level = 1
+              group by "Catalogue".name, "Catalogue".id
             `,
   newAddress: `INSERT INTO "Address" ( "name", "address", "postcode", "phone") VALUES
               ($1,$2,$3,$4);`,
@@ -49,7 +53,28 @@ const procedures: { [key: string]: string } = {
               inner join "Product" on "artistID" = "Product"."userID"
               inner join "Events" on "Product".id = "Events"."productID" and "User"."lastUpdatedAt" <= "Events"."createdAt"
               inner join "User" as "Artist" on  "artistID" = "Artist".id`,
-  readall: `Update "User" set "lastUpdatedAt" = CURRENT_TIMESTAMP where sub = $1`
+  readall: `Update "User" set "lastUpdatedAt" = CURRENT_TIMESTAMP where sub = $1`,
+  addToCart: `INSERT INTO "ShoppingCart" ("id", "productID", "amount", "userID") VALUES ($1, $2, $3, $4)`,
+  removeFromCart: `Delete from "ShoppingCart" using "User" where "ShoppingCart".id = $1 and "User".sub = $2 and "User".sub = "ShoppingCart"."userID"`,
+  updateCart: `Update "ShoppingCart" set amount = $3 from "User" where "ShoppingCart".id = $1 and "User".sub = $2 and "User".sub = "ShoppingCart"."userID"`,
+  addToFavourite: `INSERT INTO "Favourite" ("id", "productID", "userID") VALUES ($1, $2, $3)`,
+  removeFromFavourite: `Delete from "Favourite" using "User" where "Favourite"."productID" = $1 and "User".sub = $2 and "User".sub = "Favourite"."userID"`,
+  getFavourite: `Select "Product"."id", "name", "likeCount", "images", "description",
+                concat('["',
+                (array_agg("Tags"."mainTag"))[1] ,'-',(array_agg("Tags"."subTag"))[1],'","',
+                (array_agg("Tags"."mainTag"))[2] ,'-',(array_agg("Tags"."subTag"))[2],'","',
+                (array_agg("Tags"."mainTag"))[3] ,'-',(array_agg("Tags"."subTag"))[3]
+                ,'"]') as "tags"
+                from "Favourite", "Product", "Tags"
+                where
+                "Favourite"."userID" = $1
+                and
+                "Product".id = "Favourite"."productID"
+                and
+                ("Product"."tag1" = "Tags"."id" OR "Product"."tag2" = "Tags"."id" OR "Product"."tag3" = "Tags"."id")
+                GROUP BY "Product"."id"
+                `,
+  artistInfo: `INSERT INTO "Artist" ("id", "description", "backgroundImageURL") VALUES ($1, $2, $3)`
 }
 const query = async (key: string, value: string[]) => {
   const pool = new Pool({
@@ -61,6 +86,7 @@ const query = async (key: string, value: string[]) => {
   })
 
   const query = procedures[key]
+
   const result = await pool.query(query, value)
   return { count: result.rowCount, data: result.rows }
 }

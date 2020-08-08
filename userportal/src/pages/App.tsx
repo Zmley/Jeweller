@@ -12,9 +12,13 @@ import { useHistory } from 'react-router-dom'
 
 const App: React.FC = (props: any, state: any) => {
   let history = useHistory()
+  const [title, setTitle] = React.useState('SHOP')
+  const handleChangeTitle = (title: string) => {
+    setTitle(title)
+  }
   return (
     <>
-      <TitleBar />
+      <TitleBar title={title} />
       <Switch>
         <Route path='/product/:name' component={Product}></Route>
         <Route path='/category' component={Category}></Route>
@@ -24,7 +28,11 @@ const App: React.FC = (props: any, state: any) => {
         <Route path='/favourite'>
           <Favourite />
         </Route>
-        <Route exact path='/' render={() => <Home />}></Route>
+        <Route
+          exact
+          path='/'
+          render={() => <Home handleChangeTitle={handleChangeTitle} />}
+        ></Route>
       </Switch>
       {(history.location.pathname === '/' ||
         history.location.pathname === '/followed' ||

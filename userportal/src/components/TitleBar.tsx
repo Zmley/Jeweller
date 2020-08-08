@@ -6,7 +6,11 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import { Button, IconButton } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
 
-const Titlebar: React.FC = (props: any, state: any) => {
+interface Props {
+  title: string
+}
+
+const Titlebar = ({ title }: Props, state: any) => {
   let history = useHistory()
   return (
     <header className='titlebar'>
@@ -20,7 +24,7 @@ const Titlebar: React.FC = (props: any, state: any) => {
         </IconButton>
       )}
       <Button href='/' className='title'>
-        SHOP
+        {title}
       </Button>
       {!(
         window.location.pathname === '/' ||

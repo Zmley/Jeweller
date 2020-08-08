@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import { getProducts, setHeaderToken } from '../api'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Card from '@material-ui/core/Card'
 import {
@@ -12,23 +11,10 @@ import { FavoriteBorder, Favorite } from '@material-ui/icons'
 import productSample from '../assets/img/productSample.png'
 import './productList.scss'
 import { Product } from 'models'
-import { useAuth0 } from '../react-auth0-spa'
 
-const ProductList: React.FC = (props: any, state: any) => {
-  const { getTokenSilently, isAuthenticated } = useAuth0()
-  useEffect(() => {
-    loadProducts()
-  }, [])
-  const [products, setProducts] = useState([])
+const ProductList = ({ products }: any, state: any) => {
   const [liked, setLiked] = useState(false)
-  const loadProducts = async () => {
-    if (isAuthenticated) {
-      const token = await getTokenSilently()
-      setHeaderToken(token)
-    }
-    const result = await getProducts()
-    setProducts(result)
-  }
+
   const handleLikeLocal = (selectedProduct: Product, like: boolean) => {
     const localFavoriteString = localStorage.getItem('favorites')
     let localFavorite

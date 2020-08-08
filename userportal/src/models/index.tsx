@@ -8,6 +8,7 @@ export type Product = {
   selections: any[]
   likeCount: number
   name: string
+  tags: any[]
   price: number
   status: string
   userID: string
