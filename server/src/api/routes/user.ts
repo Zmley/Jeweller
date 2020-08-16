@@ -19,6 +19,16 @@ export default (app: Router) => {
       .status(200)
   })
 
+  route.post('/login', jwtCheck, async (req: Request, res: Response) => {
+    const userAccount: any = decode(req)
+    const result = await query('login', ['CUSTOMER', userAccount.sub])
+    if (result.count === 1) {
+      return res.json({ message: 'New User Register' }).status(200)
+    } else {
+      return res.json({ message: 'Login Successfully' }).status(200)
+    }
+  })
+
   route.get('/artist', jwtCheck, async (req: Request, res: Response) => {
     const { id } = req.query
     const artist = await query('getArtist', [id])

@@ -74,7 +74,8 @@ const procedures: { [key: string]: string } = {
                 ("Product"."tag1" = "Tags"."id" OR "Product"."tag2" = "Tags"."id" OR "Product"."tag3" = "Tags"."id")
                 GROUP BY "Product"."id"
                 `,
-  artistInfo: `INSERT INTO "Artist" ("id", "description", "backgroundImageURL") VALUES ($1, $2, $3)`
+  artistInfo: `INSERT INTO "Artist" ("id", "description", "backgroundImageURL") VALUES ($1, $2, $3) ON CONFLICT DO Update set description = $2, "backgroundImageURL" = $3`,
+  login: `INSERT INTO "User"(role, sub) VALUES($1, $2) ON CONFLICT DO NOTHING`
 }
 const query = async (key: string, value: string[]) => {
   const pool = new Pool({
