@@ -1,6 +1,5 @@
 import { Request } from 'express'
-
+import jwtDecode from 'jwt-decode'
 export const decode = (req: Request) => {
-  const jwtDecode = require('jwt-decode')
   return jwtDecode(req.headers.authorization)
 }

@@ -9,7 +9,7 @@
   "author": "MindSea",
   "scripts": {
     "migrate": "node-pg-migrate",
-    "start": "node-pg-migrate up && npm run build-ts && npm run tslint && npm run serve",
+    "start": "npm run build-ts && npm run tslint && npm run serve",
     "build": "npm run build-ts && npm run tslint",
     "serve": "node dist/app.js",
     "watch-node": "nodemon dist/app.js",
@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@types/jwt-decode": "^2.2.1",
+    "@types/uuid": "^8.0.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.1.0",
@@ -41,6 +42,7 @@
     "request": "^2.88.0",
     "stripe": "^8.44.0",
     "typedi": "^0.8.0",
+    "uuid": "^8.2.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {
