@@ -1,0 +1,29 @@
+.card {
+  margin: 70px 14px;
+  background-color: #f7f7f7 !important;
+  .cardHeader,
+  .cardContent {
+    padding: 20px;
+  }
+  .cardContent {
+    .input {
+      padding: 6px;
+      label {
+        color: black !important;
+      }
+    }
+  }
+}
+.btnField {
+  margin-top: 14vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .btn {
+    border-radius: 50%;
+    background-color: black !important;
+    .submitIcon {
+      color: white;
+    }
+  }
+}

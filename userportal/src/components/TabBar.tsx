@@ -5,7 +5,7 @@ import logo from '../assets/img/LOGO@2x.png'
 
 const TabBar: React.FC = (props: any, state: any) => {
   return (
-    <div className='tabbar'>
+    <footer className='tabbar'>
       <Link to='/followed'>
         <div className='tab'>Followed</div>
       </Link>
@@ -15,7 +15,7 @@ const TabBar: React.FC = (props: any, state: any) => {
       <Link to='/favourite'>
         <div className='tab'>Favourite</div>
       </Link>
-    </div>
+    </footer>
   )
 }
 

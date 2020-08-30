@@ -17,6 +17,7 @@ import {
 } from '@material-ui/core'
 import { getArtist, setLike } from '../api/index'
 import { Product } from '../models'
+import { useHistory } from 'react-router-dom'
 import './ProductDetail.scss'
 import StyleRadio from './Radio'
 
@@ -25,11 +26,11 @@ interface ProductProps {
 }
 
 const ProductDetail: React.FC<ProductProps> = ({ product }: ProductProps) => {
+  let history = useHistory()
   useEffect(() => {
     const loadArtist = async () => {
       const result = await getArtist(product.artistID)
       setArtist(result)
-      console.log(result)
     }
     loadArtist()
   }, [])
@@ -126,7 +127,9 @@ const ProductDetail: React.FC<ProductProps> = ({ product }: ProductProps) => {
             justify='space-around'
             className='btnArea'
           >
-            <Button variant='outlined'>PURCHASE NOW</Button>
+            <Button variant='outlined' onClick={() => history.push('/address')}>
+              PURCHASE NOW
+            </Button>
             <Button variant='outlined'>ADD TO CART</Button>
           </Grid>
         </Grid>

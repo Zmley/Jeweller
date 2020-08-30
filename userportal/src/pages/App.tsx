@@ -8,6 +8,8 @@ import Favourite from './Favourite'
 import TitleBar from 'components/TitleBar'
 import Product from './Product'
 import Category from './Category'
+import Address from './Address'
+import Visa from './Visa'
 import { useHistory } from 'react-router-dom'
 
 const App: React.FC = (props: any, state: any) => {
@@ -22,6 +24,8 @@ const App: React.FC = (props: any, state: any) => {
       <Switch>
         <Route path='/product/:name' component={Product}></Route>
         <Route path='/category' component={Category}></Route>
+        <Route path='/address' component={Address}></Route>
+        <Route path='/checkout' component={Visa}></Route>
         <Route path='/followed'>
           <Followed />
         </Route>
@@ -36,11 +40,7 @@ const App: React.FC = (props: any, state: any) => {
       </Switch>
       {(history.location.pathname === '/' ||
         history.location.pathname === '/followed' ||
-        history.location.pathname === '/favourite') && (
-        <footer>
-          <TabBar />
-        </footer>
-      )}
+        history.location.pathname === '/favourite') && <TabBar />}
     </>
   )
 }
