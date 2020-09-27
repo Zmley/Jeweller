@@ -5,6 +5,7 @@ import { getProducts } from '../../services/productList'
 import { jwtCheck } from '../middlewares'
 import { decode } from '../../services/jwt'
 import { generate } from '../../services/uuid'
+import jwt from 'express-jwt'
 export default (app: Router) => {
   app.use('/products', route)
 
@@ -112,10 +113,35 @@ export default (app: Router) => {
     jwtCheck,
     async (req: Request, res: Response) => {
       const { options, productName, productDescription, tags } = req.body
+      console.log(req)
       const userAccount: any = decode(req)
       const uuid = generate()
       try {
         const result = await query('createProduct', [])
+        res.json(result).status(200)
+      } catch (error) {
+        console.log(error)
+        res.json('Invalid productID').status(200)
+      }
+    }
+  )
+  route.get('/uploadURL', jwtCheck, async (req: Request, res: Response) => {
+    const { fileType, amount } = req.query
+    try {
+      const result = await query('createProduct', [])
+      res.json(result).status(200)
+    } catch (error) {
+      console.log(error)
+      res.json('Invalid productID').status(200)
+    }
+  })
+  route.get(
+    '/relatedProducts',
+    jwtCheck,
+    async (req: Request, res: Response) => {
+      const { productId } = req.query
+      try {
+        const result = await query('getRelatedProducts', [productId])
         res.json(result).status(200)
       } catch (error) {
         console.log(error)

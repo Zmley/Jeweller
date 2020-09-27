@@ -75,7 +75,14 @@ const procedures: { [key: string]: string } = {
                 GROUP BY "Product"."id"
                 `,
   artistInfo: `INSERT INTO "Artist" ("id", "description", "backgroundImageURL") VALUES ($1, $2, $3) ON CONFLICT DO Update set description = $2, "backgroundImageURL" = $3`,
-  login: `INSERT INTO "User"(role, sub) VALUES($1, $2) ON CONFLICT DO NOTHING`
+  login: `INSERT INTO "User"(role, sub) VALUES($1, $2) ON CONFLICT DO NOTHING`,
+  getRelatedProducts: `
+    Select DISTINCT p1.id, p1.name, p1.amount, p1."likeCount", p1.images,
+    p1.tag1, p1.tag2, p1.tag3, p1.description, p1.status, p1."createdAt" from "Product" as p1, "Product" as p2
+    Where
+    p1.id = $1
+    and (array[p1.tag1, p1.tag2, p1.tag3] && array[p2.tag1, p2.tag2, p2.tag3])
+  `
 }
 const query = async (key: string, value: string[]) => {
   const pool = new Pool({
