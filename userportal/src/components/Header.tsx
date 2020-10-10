@@ -17,12 +17,14 @@ import { useAuth0 } from '../react-auth0-spa'
 interface Props {
   handleChangeTitle: (title: string) => void
   handleClickCatalogue: (catalogue: any) => void
+  handleSearching: (inputString: string) => void
 }
 const Header = (
-  { handleChangeTitle, handleClickCatalogue }: Props,
+  { handleChangeTitle, handleClickCatalogue, handleSearching }: Props,
   state: any
 ) => {
   const [catalogues, setCatalogues] = useState([])
+  const [searchedInupt, setSearchedInupt] = useState('')
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0()
   useEffect(() => {
     loadProducts()
@@ -48,6 +50,11 @@ const Header = (
           <TextField
             id='input-with-icon-grid'
             variant='outlined'
+            value={searchedInupt}
+            onChange={e => {
+              setSearchedInupt(e.target.value)
+              handleSearching(e.target.value)
+            }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>

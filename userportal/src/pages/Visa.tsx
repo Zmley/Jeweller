@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js'
+import {
+  useStripe,
+  useElements,
+  CardNumberElement,
+  CardExpiryElement,
+  CardCvcElement
+} from '@stripe/react-stripe-js'
 import { createPayment } from 'api'
 import CustomTextField from '../components/TextField'
 import { Card, IconButton, Grid, Divider } from '@material-ui/core'
@@ -8,6 +14,7 @@ import './Visa.scss'
 
 const Visa: React.FC = (props: any, state: any) => {
   const [paymentInfo, setPaymentInfo] = useState<any>()
+  const [cardHolder, setCardHolder] = useState('')
 
   const getPaymentInfo = async () => {
     const result = await createPayment()
@@ -52,7 +59,7 @@ const Visa: React.FC = (props: any, state: any) => {
 
     const result = await stripe.confirmCardPayment(paymentInfo.client_secret, {
       payment_method: {
-        card: elements.getElement(CardElement)!,
+        card: elements.getElement(CardNumberElement)!,
         billing_details: {
           name: 'Jenny Rosen'
         }
@@ -84,36 +91,22 @@ const Visa: React.FC = (props: any, state: any) => {
             <div className='cardContent'>
               <Grid container>
                 <Grid item xs={12} className='input'>
-                  <CustomTextField
-                    id='cardNumber'
-                    label='Card Number'
-                    defaultValue=''
-                    fullWidth
-                  />
+                  <CardNumberElement id='cardNumber' className='cardNumber' />
                 </Grid>
                 <Grid item xs={12} className='input'>
                   <CustomTextField
                     id='holderName'
                     label='Holder Name'
-                    defaultValue=''
+                    value={cardHolder}
+                    onChange={e => setCardHolder(e.target.value)}
                     fullWidth
                   />
                 </Grid>
                 <Grid item xs={6} className='input'>
-                  <CustomTextField
-                    id='expired'
-                    label='Ex. Date'
-                    defaultValue=''
-                    fullWidth
-                  />
+                  <CardExpiryElement id='expiry' className='expriy' />
                 </Grid>
                 <Grid item xs={6} className='input'>
-                  <CustomTextField
-                    id='cvv'
-                    label='CVV'
-                    defaultValue=''
-                    fullWidth
-                  />
+                  <CardCvcElement id='cvc' className='cvc' />
                 </Grid>
               </Grid>
             </div>

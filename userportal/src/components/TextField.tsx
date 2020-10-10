@@ -7,8 +7,8 @@ interface Props {
   placeholder?: string
   required?: boolean
   fullWidth?: boolean
-  defaultValue: any
-  onChange?: () => void
+  value: any
+  onChange?: (e: React.ChangeEvent<any>) => void
 }
 
 const CustomTextField = (props: Props, state: any) => {
@@ -21,7 +21,7 @@ const CustomTextField = (props: Props, state: any) => {
       required={props.required || false}
       fullWidth={props.fullWidth || false}
       margin='normal'
-      defaultValue={props.defaultValue}
+      value={props.value}
       InputLabelProps={{ shrink: true }}
       onChange={props.onChange}
     />
