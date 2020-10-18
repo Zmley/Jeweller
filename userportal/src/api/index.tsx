@@ -2,10 +2,7 @@ import axios from 'axios'
 
 axios.defaults.baseURL = process.env.REACT_APP_URL
 
-export const getProducts = async (token: any) => {
-  axios.defaults.headers = { Authorization: `Bearer ${token}` }
-  return (await axios.get('/products')).data
-}
+export const getProducts = async () => axios.get('/products')
 
 export const getRelatedProducts = async () => (await axios.get('/related')).data
 export const getArtist = async (id: string) =>

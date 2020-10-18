@@ -27,7 +27,7 @@ export default {
    * API configs
    */
   api: {
-    prefix: '/api'
+    prefix: process.env.PRODUCTION === '0' ? '/api' : ''
   },
 
   /**
@@ -41,5 +41,5 @@ export default {
     sessionSecret: process.env['SESSION_SECRET']
   },
 
-  dev: process.env.NODE_ENV === 'dev'
+  dev: process.env.PRODUCTION === '0'
 }

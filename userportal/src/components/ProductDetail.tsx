@@ -13,12 +13,15 @@ import {
   ListItem,
   ListItemText,
   ListItemAvatar,
-  Avatar
+  Avatar,
+  Snackbar,
+  SnackbarContent
 } from '@material-ui/core'
 import { getArtist, setLike } from '../api/index'
 import { Product } from '../models'
 import './ProductDetail.scss'
 import StyleRadio from './Radio'
+import history from '../utils/history'
 
 interface ProductProps {
   product: Product
@@ -32,6 +35,7 @@ const ProductDetail: React.FC<ProductProps> = ({ product }: ProductProps) => {
     }
     loadArtist()
   }, [])
+  const [addSuccessOpen, setAddSuccessOpen] = useState(false)
   const [artist, setArtist] = useState()
   const [selectedColor, setSelectedColor] = useState(
     product.selections[0] && product.selections[0].color
@@ -68,8 +72,48 @@ const ProductDetail: React.FC<ProductProps> = ({ product }: ProductProps) => {
     setLike(isLike)
     setLiked(isLike)
   }
+  const addToCart = (product: Product) => {
+    const rawCart = localStorage.getItem('cart')
+
+    const cartStorage = rawCart ? JSON.parse(rawCart) : []
+    // const productIndex = cartStorage.findIndex(
+    //   (storedProduct: Product) => storedProduct.id !== product.id
+    // )
+
+    // if (productIndex)
+    cartStorage.push(product)
+
+    const cartStorageJSON = JSON.stringify(cartStorage)
+    localStorage.setItem('cart', cartStorageJSON)
+    setAddSuccessOpen(true)
+  }
   return (
     <div className='productCard'>
+      <Snackbar
+        open={addSuccessOpen}
+        onClose={() => {
+          setAddSuccessOpen(false)
+        }}
+        className='snackbar'
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <SnackbarContent
+          message={'This product added to your cart'}
+          action={
+            <React.Fragment>
+              <Button
+                style={{ color: 'white' }}
+                size='small'
+                onClick={() => {
+                  history.push('../cart')
+                }}
+              >
+                View
+              </Button>
+            </React.Fragment>
+          }
+        />
+      </Snackbar>
       <Paper elevation={0}>
         <Slider></Slider>
         <Grid container>
@@ -126,7 +170,14 @@ const ProductDetail: React.FC<ProductProps> = ({ product }: ProductProps) => {
             className='btnArea'
           >
             <Button variant='outlined'>PURCHASE NOW</Button>
-            <Button variant='outlined'>ADD TO CART</Button>
+            <Button
+              variant='outlined'
+              onClick={() => {
+                addToCart(product)
+              }}
+            >
+              ADD TO CART
+            </Button>
           </Grid>
         </Grid>
         <List>

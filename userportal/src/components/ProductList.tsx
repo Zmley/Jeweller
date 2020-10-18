@@ -14,18 +14,9 @@ import './productList.scss'
 import { Product } from 'models'
 import { useAuth0 } from '../react-auth0-spa'
 
-const ProductList: React.FC = (props: any, state: any) => {
-  const { getTokenSilently } = useAuth0()
-  useEffect(() => {
-    loadProducts()
-  }, [])
-  const [products, setProducts] = useState([])
+const ProductList = (props: any, state: any) => {
+  const { products } = props
   const [liked, setLiked] = useState(false)
-  const loadProducts = async () => {
-    const token = await getTokenSilently()
-    const result = await getProducts(token)
-    setProducts(result)
-  }
   const handleLikeLocal = (selectedProduct: Product, like: boolean) => {
     const localFavoriteString = localStorage.getItem('favorites')
     let localFavorite
@@ -49,73 +40,71 @@ const ProductList: React.FC = (props: any, state: any) => {
     <div className='productList'>
       {products.length > 0 &&
         products.map((product: Product, index: number) => (
-          <Link
+          <Card
             key={product.id}
-            to={{
-              pathname: `/product/${product.name}`,
-              state: { product: product }
-            }}
+            className={index % 2 === 0 ? 'productCardLeft' : 'productCardRight'}
           >
-            <Card
+            <Link
               key={product.id}
-              className={
-                index % 2 === 0 ? 'productCardLeft' : 'productCardRight'
-              }
+              to={{
+                pathname: `/product/${product.id}`,
+                state: { product: product }
+              }}
             >
               <CardMedia
                 image={productSample}
                 title='Paella dish'
                 className='image'
               />
-              <CardContent className='content'>
-                <Typography
-                  variant='body2'
-                  color='textSecondary'
-                  component='p'
-                  align='left'
-                  className='productName'
-                >
-                  {product.name}
-                </Typography>
-                <Typography
-                  variant='body2'
-                  color='textSecondary'
-                  component='p'
-                  align='left'
-                  className='userName'
-                >
-                  {product.username}
-                </Typography>
-                <div className='likeDislike'>
-                  {/* This part is a future item, hasn't been implemented since we dont have favourite data yet. */}
-                  {liked ? (
-                    <IconButton
-                      className='button'
-                      onClick={() => handleLikeLocal(product, false)}
-                    >
-                      <Favorite className='like' />
-                    </IconButton>
-                  ) : (
-                    <IconButton
-                      className='button'
-                      onClick={() => handleLikeLocal(product, true)}
-                    >
-                      <FavoriteBorder className='like' />
-                    </IconButton>
-                  )}
-                  <Typography
-                    variant='body2'
-                    color='textSecondary'
-                    component='p'
-                    align='left'
-                    className='count'
+            </Link>
+            <CardContent className='content'>
+              <Typography
+                variant='body2'
+                color='textSecondary'
+                component='p'
+                align='left'
+                className='productName'
+              >
+                {product.name}
+              </Typography>
+              <Typography
+                variant='body2'
+                color='textSecondary'
+                component='p'
+                align='left'
+                className='userName'
+              >
+                {product.username}
+              </Typography>
+              <div className='likeDislike'>
+                {/* This part is a future item, hasn't been implemented since we dont have favourite data yet. */}
+                {liked ? (
+                  <IconButton
+                    className='button'
+                    onClick={() => handleLikeLocal(product, false)}
                   >
-                    {product.likeCount}
-                  </Typography>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
+                    <Favorite className='like' />
+                  </IconButton>
+                ) : (
+                  <IconButton
+                    className='button'
+                    onClick={() => handleLikeLocal(product, true)}
+                  >
+                    <FavoriteBorder className='like' />
+                  </IconButton>
+                )}
+                <Typography
+                  variant='body2'
+                  color='textSecondary'
+                  component='p'
+                  align='left'
+                  className='count'
+                >
+                  {product.likeCount}
+                </Typography>
+              </div>
+            </CardContent>
+          </Card>
         ))}
     </div>
   )

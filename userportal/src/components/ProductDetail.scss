@@ -11,3 +11,10 @@
     justify-content: center;
   }
 }
+.snackbar {
+  top: 54px !important;
+  width: 100vw;
+  .MuiPaper-root {
+    width: 100vw;
+  }
+}
