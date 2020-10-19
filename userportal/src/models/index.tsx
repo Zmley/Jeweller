@@ -3,11 +3,12 @@ export type Product = {
   createdAt: string
   description: string
   id: string
-  images: string[]
+  images: any[]
   lastUpdatedAt: string
   selections: any[]
   likeCount: number
   name: string
+  tags: any[]
   price: number
   status: string
   userID: string

@@ -1,19 +1,34 @@
 import { Pool } from 'pg'
 import { productStatus } from '../models'
 const procedures: { [key: string]: string } = {
-  productList: `SELECT "Product"."id", "name", "likeCount", "images", "description", "User"."id" as "artistID", (array_agg("username"))[1] as "artistName",
-                concat('["',
-                (array_agg("Tags"."mainTag"))[1] ,'-',(array_agg("Tags"."subTag"))[1],'","',
-                (array_agg("Tags"."mainTag"))[2] ,'-',(array_agg("Tags"."subTag"))[2],'","',
-                (array_agg("Tags"."mainTag"))[3] ,'-',(array_agg("Tags"."subTag"))[3]
-                ,'"]') as "tags"
-                FROM "Product"
-                LEFT JOIN "User"
-                ON "Product"."userID" = "User"."id"
-                LEFT JOIN "Tags"
-                ON "Product"."tag1" = "Tags"."id" OR "Product"."tag2" = "Tags"."id" OR "Product"."tag3" = "Tags"."id"
-                WHERE "status" = '${productStatus.ENABLED}'
-                GROUP BY "Product"."id", "User"."id"
+  productList: `Select "Product".id, "Product".name, "Product"."likeCount", tags.records as tags, price, "User"."id" as "artistID", "username" as "artistName", description, images.records as images
+                FROM "Product", "User",
+                  LATERAL (
+                    SELECT COALESCE(json_agg(row_to_json(tags)), '[]'::json) AS records
+                    FROM (
+                      SELECT
+                        id, "mainTag", "subTag"
+                      FROM
+                        "Tags"
+                      where
+                        Array["Product".tag1, "Product".tag2, "Product".tag3] @> Array["Tags".id]
+                    ) tags
+                  ) tags,
+                  LATERAL (
+                    SELECT COALESCE(json_agg(row_to_json(image)), '[]'::json) AS records
+                    FROM (
+                      SELECT
+                        *
+                      FROM
+                        "Images"
+                      where
+                        "Product".id = "Images"."productID"
+                    ) image
+                  ) images
+                where
+                  "User".id = "Product"."userID"
+                and
+                  "status" = '${productStatus.ENABLED}'
               `,
   offShelfProduct: `Update "Product" set status = 'SOLD' where id = $1 and "userID" = $2`,
   productSizeList: `select "id","productID","size","width","price"::float,"length","height","color","imageURL" from "ProductSize"`,

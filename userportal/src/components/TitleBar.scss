@@ -8,6 +8,7 @@
   left: 0;
   right: 0;
   z-index: 999;
+  height: 40px;
   .back {
     padding: 12px 16px;
     margin-top: 2px;
@@ -16,6 +17,7 @@
     font-size: 16px;
     font-family: 'PingFang SC';
     flex-grow: 1;
+    text-align: center;
   }
   .cart {
     width: 17px;

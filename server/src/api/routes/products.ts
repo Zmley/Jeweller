@@ -10,8 +10,8 @@ export default (app: Router) => {
 
   route.get('/', async (req: Request, res: Response) => {
     const productList = await query('productList', [])
-    const products = await getProducts(productList.data)
-    res.json(products).status(200)
+
+    res.json(productList).status(200)
   })
   route.get('/favourites', jwtCheck, async (req: Request, res: Response) => {
     const userAccount: any = decode(req)

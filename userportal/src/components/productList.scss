@@ -1,8 +1,8 @@
 $cardSize: 44vw;
 .productList {
   padding-bottom: 49px;
+  padding: 18px;
   .image {
-    width: $cardSize;
     height: $cardSize;
   }
   .content {
@@ -26,12 +26,15 @@ $cardSize: 44vw;
       bottom: 10px;
     }
     .productName {
-      font-size: 11px;
+      font-size: 14px;
       line-height: 15px;
+      color: black;
+      font-weight: 500;
     }
     .userName {
-      font-size: 7px;
+      font-size: 9px;
       line-height: 19px;
+      color: black;
     }
   }
 

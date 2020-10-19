@@ -1,0 +1,23 @@
+.addressBox {
+  margin-top: 50px;
+  padding: 32px;
+  .input {
+    margin-top: 25px;
+    label {
+      color: black;
+    }
+  }
+  .btnField {
+    margin-top: 14vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .btn {
+      border-radius: 50%;
+      background-color: black !important;
+      .submitIcon {
+        color: white;
+      }
+    }
+  }
+}

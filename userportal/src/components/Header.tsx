@@ -14,8 +14,17 @@ import { getCatalogues } from '../api'
 import { AccountCircle, Search } from '@material-ui/icons'
 import { useAuth0 } from '../react-auth0-spa'
 
-const Header: React.FC = (props: any, state: any) => {
+interface Props {
+  handleChangeTitle: (title: string) => void
+  handleClickCatalogue: (catalogue: any) => void
+  handleSearching: (inputString: string) => void
+}
+const Header = (
+  { handleChangeTitle, handleClickCatalogue, handleSearching }: Props,
+  state: any
+) => {
   const [catalogues, setCatalogues] = useState([])
+  const [searchedInupt, setSearchedInupt] = useState('')
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0()
   useEffect(() => {
     loadProducts()
@@ -25,9 +34,7 @@ const Header: React.FC = (props: any, state: any) => {
     const { data } = result
     setCatalogues(data)
   }
-  const handleClick = () => {
-    console.info('You clicked the Chip.')
-  }
+
   return (
     <div className='header'>
       <Grid spacing={1} container alignItems='flex-end' className='socialBar'>
@@ -44,6 +51,11 @@ const Header: React.FC = (props: any, state: any) => {
           <TextField
             id='input-with-icon-grid'
             variant='outlined'
+            value={searchedInupt}
+            onChange={e => {
+              setSearchedInupt(e.target.value)
+              handleSearching(e.target.value)
+            }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -57,7 +69,9 @@ const Header: React.FC = (props: any, state: any) => {
           />
         </Grid>
         <Grid item className='cartbtn' xs={1}>
-          <img src={cart} className='cart'></img>
+          <IconButton href='/cart' size='small'>
+            <img src={cart} className='cart'></img>
+          </IconButton>
         </Grid>
         <Grid item xs={12}>
           <GridList className='gridList'>
@@ -67,7 +81,7 @@ const Header: React.FC = (props: any, state: any) => {
                   key={index}
                   size='small'
                   label={catalogue.name}
-                  onClick={handleClick}
+                  onClick={() => handleClickCatalogue(catalogue)}
                   className='chip'
                   clickable
                 />
