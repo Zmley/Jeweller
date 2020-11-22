@@ -90,7 +90,33 @@ const procedures: { [key: string]: string } = {
                 GROUP BY "Product"."id"
                 `,
   artistInfo: `INSERT INTO "Artist" ("id", "description", "backgroundImageURL") VALUES ($1, $2, $3) ON CONFLICT DO Update set description = $2, "backgroundImageURL" = $3`,
-  login: `INSERT INTO "User"(role, sub) VALUES($1, $2) ON CONFLICT DO NOTHING`
+  login: `INSERT INTO "User"(role, sub) VALUES($1, $2) ON CONFLICT DO NOTHING`,
+  getArtists: `
+      Select "Artist".id, "Artist"."backgroundImage", "Artist"."description", "Artist"."createdAt",  "Artist"."lastUpdatedAt",  "Artist".type, products, "likeCount","productCount", "followerCount", followers,"User".avatar,"User".username
+      From "Artist", "User",
+      LATERAL (
+        SELECT COALESCE(json_agg(row_to_json(product)), '[]'::json) AS products, sum("likeCount") as "likeCount", count(*) as "productCount"
+        FROM (
+          SELECT
+            *
+          FROM
+            "Product"
+          where
+            "Artist".id = "Product"."userID"
+        ) product
+      ) product,
+      LATERAL (
+        SELECT COALESCE(json_agg(row_to_json(follower)), '[]'::json) AS followers, count(*) as "followerCount"
+        FROM (
+          SELECT
+            *
+          FROM
+            "Follow"
+          where
+            "Artist".id = "Follow"."artistID"
+        ) follower
+      ) follower
+      where "User".id = "Artist".id`
 }
 const query = async (key: string, value: string[]) => {
   const pool = new Pool({

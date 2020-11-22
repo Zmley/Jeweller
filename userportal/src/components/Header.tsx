@@ -1,31 +1,39 @@
 import React, { useState, useEffect } from 'react'
 import './Header.scss'
 import cart from '../assets/img/Cart.png'
-import Chip from '@material-ui/core/Chip'
 import {
   TextField,
-  GridList,
+  Button,
   InputAdornment,
-  IconButton
+  IconButton,
+  Typography
 } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
-import Slider from './Slider'
+
 import { getCatalogues } from '../api'
-import { AccountCircle, Search } from '@material-ui/icons'
+import { PersonOutline, Search } from '@material-ui/icons'
 import { useAuth0 } from '../react-auth0-spa'
 
 interface Props {
   handleChangeTitle: (title: string) => void
-  handleClickCatalogue: (catalogue: any) => void
+  setSelectedTitle: (title: string) => void
+  selectedTitle: string
   handleSearching: (inputString: string) => void
 }
+
 const Header = (
-  { handleChangeTitle, handleClickCatalogue, handleSearching }: Props,
+  {
+    handleChangeTitle,
+    setSelectedTitle,
+    selectedTitle,
+    handleSearching
+  }: Props,
   state: any
 ) => {
   const [catalogues, setCatalogues] = useState([])
   const [searchedInupt, setSearchedInupt] = useState('')
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0()
+
   useEffect(() => {
     loadProducts()
   }, [])
@@ -41,10 +49,10 @@ const Header = (
         <Grid item xs={1}>
           <IconButton
             aria-label='account'
-            size='small'
+            style={{ padding: 0 }}
             onClick={() => (isAuthenticated ? logout() : loginWithRedirect())}
           >
-            <AccountCircle fontSize='small' />
+            <PersonOutline />
           </IconButton>
         </Grid>
         <Grid item className='inputField' xs={10}>
@@ -73,24 +81,44 @@ const Header = (
             <img src={cart} className='cart'></img>
           </IconButton>
         </Grid>
-        <Grid item xs={12}>
-          <GridList className='gridList'>
-            {catalogues.length > 0 &&
-              catalogues.map((catalogue: any, index: number) => (
-                <Chip
-                  key={index}
-                  size='small'
-                  label={catalogue.name}
-                  onClick={() => handleClickCatalogue(catalogue)}
-                  className='chip'
-                  clickable
-                />
-              ))}
-          </GridList>
+        <Grid item xs={12} container spacing={3}>
+          <Grid xs={4} item>
+            <Button
+              style={{
+                textAlign: 'center',
+                fontWeight: selectedTitle === 'home' ? 'bold' : 'normal'
+              }}
+              onClick={() => setSelectedTitle('home')}
+            >
+              HOMEPAGE
+            </Button>
+          </Grid>
+          <Grid xs={4} item>
+            <Button
+              style={{
+                textAlign: 'center',
+                fontWeight: selectedTitle === 'catalogue' ? 'bold' : 'normal'
+              }}
+              onClick={() => {
+                setSelectedTitle('catalogue')
+              }}
+            >
+              CATALOGUE
+            </Button>
+          </Grid>
+          <Grid xs={4} item>
+            <Button
+              style={{
+                textAlign: 'center',
+                fontWeight: selectedTitle === 'artists' ? 'bold' : 'normal'
+              }}
+              onClick={() => setSelectedTitle('artists')}
+            >
+              ARTISTS
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
-
-      <Slider></Slider>
     </div>
   )
 }

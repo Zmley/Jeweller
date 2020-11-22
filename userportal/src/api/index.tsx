@@ -17,3 +17,5 @@ export const setLike = async (isLike: boolean) =>
   isLike
     ? (await axios.get('products/like')).data
     : (await axios.get('products/dislike')).data
+
+export const onGetArtists = () => axios.get('users/artists')

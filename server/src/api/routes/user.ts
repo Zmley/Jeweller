@@ -37,11 +37,14 @@ export default (app: Router) => {
     artist.data[0].products = products
     return res.json(artist).status(200)
   })
+
+  route.get('/artists', async (req: Request, res: Response) => {
+    const artistList = await query('getArtists', [])
+    return res.json(artistList).status(200)
+  })
   route.post('/artistInfo', jwtCheck, async (req: Request, res: Response) => {
     const { id, description, backgroundImageURL } = req.body
     const userAccount: any = decode(req)
-    console.log(description)
-    console.log(backgroundImageURL)
     const result = await query('artistInfo', [id])
     return res.json(result).status(200)
   })

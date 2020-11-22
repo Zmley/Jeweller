@@ -3,7 +3,7 @@ export type Product = {
   createdAt: string
   description: string
   id: string
-  images: any[]
+  images: any
   lastUpdatedAt: string
   selections: any[]
   likeCount: number
@@ -22,4 +22,18 @@ export type User = {
   role: string
   avartar: string
   id: string
+}
+
+export interface Arist {
+  avatar: string
+  backgroundImage: string
+  followerCount: string
+  followers: any[]
+  id: string
+  lastUpdatedAt: string
+  likeCount: string
+  productCount: string
+  products: any[]
+  username: string
+  description: string
 }

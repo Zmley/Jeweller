@@ -21,8 +21,6 @@ import { getArtist, setLike } from '../api/index'
 import { Product } from '../models'
 import { useHistory } from 'react-router-dom'
 import './ProductDetail.scss'
-import StyleRadio from './Radio'
-import history from '../utils/history'
 
 interface ProductProps {
   product: Product
@@ -39,37 +37,9 @@ const ProductDetail: React.FC<ProductProps> = ({ product }: ProductProps) => {
   }, [])
   const [addSuccessOpen, setAddSuccessOpen] = useState(false)
   const [artist, setArtist] = useState()
-  // const [selectedColor, setSelectedColor] = useState(
-  //   product.selections[0] && product.selections[0].color
-  // )
-  // const [selectedSize, setSelectedSize] = useState(
-  //   product.selections[0] && product.selections[0].size
-  // )
-  // const [selectedPrice, setSelectedPrice] = useState(
-  //   product.selections[0] ? product.selections[0].price : 'null'
-  // )
+
   const [liked, setLiked] = useState(false)
-  // const handleSelectPriceByColor = (e: any, index: number) => {
-  //   setSelectedColor(e.target.value)
-  //   const selection = product.selections[index]
-  //   if (selection.color === e.target.value && selection.size === selectedSize) {
-  //     setSelectedPrice(selection.price)
-  //   } else {
-  //     setSelectedPrice('null')
-  //   }
-  // }
-  // const handleSelectPriceBySize = (e: any, index: number) => {
-  //   setSelectedSize(e.target.value)
-  //   const selection = product.selections[index]
-  //   if (
-  //     selection.color === selectedColor &&
-  //     selection.size === e.target.value
-  //   ) {
-  //     setSelectedPrice(selection.price)
-  //   } else {
-  //     setSelectedPrice('null')
-  //   }
-  // }
+
   const handleLike = (isLike: boolean) => {
     setLike(isLike)
     setLiked(isLike)
@@ -78,17 +48,14 @@ const ProductDetail: React.FC<ProductProps> = ({ product }: ProductProps) => {
     const rawCart = localStorage.getItem('cart')
 
     const cartStorage = rawCart ? JSON.parse(rawCart) : []
-    // const productIndex = cartStorage.findIndex(
-    //   (storedProduct: Product) => storedProduct.id !== product.id
-    // )
 
-    // if (productIndex)
     cartStorage.push(product)
 
     const cartStorageJSON = JSON.stringify(cartStorage)
     localStorage.setItem('cart', cartStorageJSON)
     setAddSuccessOpen(true)
   }
+
   return (
     <div className='productCard'>
       <Snackbar
@@ -117,20 +84,15 @@ const ProductDetail: React.FC<ProductProps> = ({ product }: ProductProps) => {
         />
       </Snackbar>
       <Paper elevation={0}>
-        <Slider></Slider>
-        <Grid container>
-          <Grid item xs={12} container className='productInfo'>
+        <Slider images={product.images}></Slider>
+        <Grid container className='productInfo' spacing={3}>
+          <Grid item xs={12} container>
             <Grid xs={10} item container direction='column'>
               <Grid item xs>
                 <Typography gutterBottom variant='subtitle1'>
                   {product.name}
                 </Typography>
                 <Typography variant='h4'>${product.price}</Typography>
-              </Grid>
-              <Grid item xs>
-                <Typography variant='body2' color='textSecondary'>
-                  {product.description}
-                </Typography>
               </Grid>
             </Grid>
             <Grid item xs container direction='column' alignItems='center'>
@@ -163,6 +125,13 @@ const ProductDetail: React.FC<ProductProps> = ({ product }: ProductProps) => {
                 </Typography>
               </Grid>
             </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography
+              variant='body2'
+              color='textSecondary'
+              dangerouslySetInnerHTML={{ __html: product.description }}
+            ></Typography>
           </Grid>
           <Grid
             item

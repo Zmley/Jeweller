@@ -1,31 +1,27 @@
-import React from 'react'
-import { ArrowForward, Favorite, FavoriteBorder } from '@material-ui/icons'
-import {
-  Button,
-  IconButton,
-  Typography,
-  Divider,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
-  Avatar,
-  Snackbar,
-  SnackbarContent,
-  Grid
-} from '@material-ui/core'
+import React, { useState } from 'react'
+import { IconButton, Divider, Avatar, Grid } from '@material-ui/core'
+import DeleteIcon from 'components/Icons/DeleteIcon'
+import ForwardIcon from 'components/Icons/ForwardIcon'
 const Cart: React.FC = (props: any, state: any) => {
   const rawProducts = localStorage.getItem('cart')
-  const products = rawProducts ? JSON.parse(rawProducts) : []
 
+  const [products, setProducts] = useState(
+    rawProducts ? JSON.parse(rawProducts) : []
+  )
   let totalPrice = 0
+  const removeProduct = (index: any) => {
+    const newProducts = [...products]
+    newProducts.splice(index, 1)
+    localStorage.setItem('cart', JSON.stringify(newProducts))
+    setProducts(newProducts)
+  }
   return (
     <div style={{ padding: 15 }}>
-      <Grid container>
-        {products.map((product: any) => {
+      <Grid container spacing={3}>
+        {products.map((product: any, index: number) => {
           totalPrice += Number(product.price)
           return (
-            <Grid container>
+            <Grid container item key={index}>
               <Grid xs={3}>
                 <Avatar
                   style={{ width: 77, height: 77 }}
@@ -41,10 +37,17 @@ const Cart: React.FC = (props: any, state: any) => {
                 <Grid xs={3} item style={{ textAlign: 'right' }}>
                   ${product.price}
                 </Grid>
-                <Divider style={{ width: '100%' }} />
+                <Divider style={{ width: '100%', marginBottom: 16 }} />
                 <Grid item xs={9}></Grid>
-                <Grid item xs={3} style={{ textAlign: 'right' }}>
-                  x
+                <Grid
+                  item
+                  xs={3}
+                  style={{ textAlign: 'right' }}
+                  onClick={() => {
+                    removeProduct(index)
+                  }}
+                >
+                  <DeleteIcon />
                 </Grid>
               </Grid>
             </Grid>
@@ -69,14 +72,15 @@ const Cart: React.FC = (props: any, state: any) => {
       </Grid>
       <IconButton
         style={{
-          backgroundColor: 'black',
           color: '#fff',
           position: 'fixed',
-          left: 'calc(50% - 26px)',
-          bottom: '100px'
+          left: 'calc(50% - 43px)',
+
+          bottom: '80px'
         }}
+        href='/address'
       >
-        -&gt;
+        <ForwardIcon />
       </IconButton>
     </div>
   )
